@@ -1,0 +1,6 @@
+[submodule "vendor/async.js"]
+	path = vendor/async.js
+	url = http://github.com/fjakobs/async.js.git
+[submodule "vendor/node-xml"]
+	path = vendor/node-xml
+	url = http://github.com/robrighter/node-xml.git
