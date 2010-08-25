@@ -8,4 +8,6 @@
 
 var jsDAV = require("./../lib/jsdav");
 
+jsDAV.debugMode = true;
+
 jsDAV.createServer(null, 8080);
