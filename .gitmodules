@@ -4,3 +4,6 @@
 [submodule "vendor/node-xml"]
 	path = vendor/node-xml
 	url = http://github.com/robrighter/node-xml.git
+[submodule "vendor/formidable"]
+	path = vendor/formidable
+	url = http://github.com/felixge/node-formidable.git
