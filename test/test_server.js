@@ -10,4 +10,4 @@ var jsDAV = require("./../lib/jsdav");
 
 jsDAV.debugMode = true;
 
-jsDAV.createServer({node: "/"}, 8080);
+jsDAV.createServer({node: "/Users/mike/Desktop"}, 8080);
