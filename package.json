@@ -1,0 +1,18 @@
+{
+    "name": "jsDAV",
+    "description": "jsDAV allows you to easily add WebDAV support to a NodeJS application. jsDAV is meant to cover the entire standard, and attempts to allow integration using an easy to understand API.",
+    "version": "0.1",
+    "homepage" : "http://github.com/mikedeboer/jsDAV",
+    "engines": {"node": ">= 0.1.102"},
+    "author": "Mike de Boer <info@mikedeboer.nl>",
+    "scripts": {"test": "node test/test_server.js"},
+    "main": "lib/jsdav",
+    "repository" : {
+        "type" : "git",
+         "url" : "http://github.com/mikedeboer/jsDAV.git"
+    },
+    "licenses": [{
+        "type": "The MIT License",
+        "url": "http://www.opensource.org/licenses/mit-license.php"}
+    ]
+}
