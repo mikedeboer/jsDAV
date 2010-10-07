@@ -1,9 +1,6 @@
 [submodule "vendor/async.js"]
 	path = vendor/async.js
 	url = http://github.com/fjakobs/async.js.git
-[submodule "vendor/node-xml"]
-	path = vendor/node-xml
-	url = http://github.com/robrighter/node-xml.git
 [submodule "vendor/formidable"]
 	path = vendor/formidable
 	url = http://github.com/felixge/node-formidable.git
