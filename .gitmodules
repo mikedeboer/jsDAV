@@ -1,12 +1,12 @@
-[submodule "vendor/async.js"]
-	path = vendor/async.js
+[submodule "support/async.js"]
+	path = support/async.js
 	url = http://github.com/fjakobs/async.js.git
-[submodule "vendor/formidable"]
-	path = vendor/formidable
+[submodule "support/formidable"]
+	path = support/formidable
 	url = http://github.com/felixge/node-formidable.git
-[submodule "vendor/colors.js"]
-	path = vendor/colors.js
+[submodule "support/colors.js"]
+	path = support/colors.js
 	url = http://github.com/Marak/colors.js.git
-[submodule "vendor/node-o3-xml"]
-	path = vendor/node-o3-xml
-	url = git://github.com/ajaxorg/node-o3-xml.git
+[submodule "support/node-o3-xml"]
+	path = support/node-o3-xml
+	url = http://github.com/ajaxorg/node-o3-xml.git
