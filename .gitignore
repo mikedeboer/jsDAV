@@ -1,3 +1,8 @@
 .DS_Store
 .svn
 nbproject
+.settings.xml
+child.log
+debug.log
+search.txt
+test/output.xml
