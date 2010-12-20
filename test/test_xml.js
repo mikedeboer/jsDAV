@@ -1,6 +1,5 @@
 
-var Xml    = require("./../support/node-xml/lib/node-xml"),
-    Util   = require("./../lib/DAV/util"),
+var Util   = require("./../lib/DAV/util"),
     Assert = require("assert"),
     sys    = require("sys"),
     K      = function() {},
