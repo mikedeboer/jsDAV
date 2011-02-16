@@ -4,9 +4,6 @@
 [submodule "support/formidable"]
 	path = support/formidable
 	url = http://github.com/felixge/node-formidable.git
-[submodule "support/node-o3-xml"]
-	path = support/node-o3-xml
-	url = http://github.com/ajaxorg/node-o3-xml.git
 [submodule "support/node-o3-xml-v4"]
 	path = support/node-o3-xml-v4
 	url = http://github.com/ajaxorg/node-o3-xml-v4.git
