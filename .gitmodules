@@ -7,6 +7,3 @@
 [submodule "support/node-o3-xml-v4"]
 	path = support/node-o3-xml-v4
 	url = http://github.com/ajaxorg/node-o3-xml-v4.git
-[submodule "support/npm"]
-	path = support/npm
-	url = https://github.com/isaacs/npm.git
