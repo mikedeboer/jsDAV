@@ -18,4 +18,8 @@ var server = Http.createServer(function(req, resp) {
 
 server.listen(8080, "127.0.0.1");
 
-jsDAV.mount(__dirname + "/assets", "test", server);
+jsDAV.mount({
+    path: __dirname + "/assets",
+    mount: "test",
+    server: server
+});
