@@ -1,7 +1,7 @@
 /*
  * @package jsDAV
  * @subpackage DAV
- * @copyright Copyright (C) 2010 Mike de Boer. All rights reserved.
+ * @copyright Copyright(c) 2011 Ajax.org B.V. <info AT ajax.org>
  * @author Mike de Boer <mike AT ajax DOT org>
  * @license http://github.com/mikedeboer/jsDAV/blob/master/LICENSE MIT License
  */
