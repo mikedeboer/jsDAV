@@ -46,8 +46,11 @@ jsDAV.createServer({
     type: "sftp",
     sftp: {
         host: host,
-        privateKey: prvkey,
-        username: username,
+        prvKey: prvkey,
+        pubKey: pubkey,
+        user: username,
+        port: 22,
         home: "/home/sshtest"
     }
 }, 8000);
+
