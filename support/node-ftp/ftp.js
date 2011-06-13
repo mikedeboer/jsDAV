@@ -264,7 +264,7 @@ FTP.prototype.put = function(instream, destpath, cb) {
   instream.pause();
 
   var self = this;
-  return this.send('PASV', function(e, outstream) {
+  return this.send('PASV', function(e, outstream) { // net.createConnection :: out stream from FTP conn.
     if (e)
       return cb(e);
 
@@ -574,6 +574,12 @@ FTP.prototype.stat = function(path, callback) {
 FTP.prototype.lstat = FTP.prototype.fstat = FTP.prototype.stat;
 
 /* Extended features */
+
+FTP.prototype.chmod = function(path, mode, cb) {
+  if (this._state !== 'authorized' || !this._feat['CHMOD'])
+    return false;
+  return this.send('CHMOD', mode + ' ' + path, cb);
+};
 
 FTP.prototype.size = function(path, cb) {
   if (this._state !== 'authorized' || !this._feat['SIZE'])
