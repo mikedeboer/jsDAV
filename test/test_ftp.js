@@ -1,9 +1,9 @@
+
 var assert = require("assert");
-//var Ftp = require("./ftp");
-var Fs = require("fs");
-var exec = require('child_process').spawn;
-var jsDAV = require("./../lib/jsdav");
-//var Ftp = require("./../support/node-ftp").Ftp;
+var Fs     = require("fs");
+var exec   = require('child_process').spawn;
+var jsDAV  = require("./../lib/jsdav");
+var _      = require("../support/node-ftp/support/underscore");
 
 var _c = {
     host: "ftp.merino.ws",
@@ -17,34 +17,32 @@ jsDAV.debugMode = true;
 module.exports = {
     timeout: 10000,
 
-    setUp: function(next) {
-        exec('/bin/launchctl', ['load', '-w', '/System/Library/LaunchDaemons/ftp.plist']);
-
-        this.server = jsDAV.createServer({
+    setUpSuite: function(next) {
+        //exec('/bin/launchctl', ['load', '-w', '/System/Library/LaunchDaemons/ftp.plist']);
+        
+        var server = this.server = jsDAV.createServer({
             type: "ftp",
             ftp: {
-                host:   _c.host,
-                user:   _c.username,
+                host:     _c.host,
+                user:     _c.username,
                 password: _c.passwd,
-                port: _c.port,
-                node: "/c9"
+                port:     _c.port,
+                node:     "/c9"
             }
         }, 8000);
 
-        this.ftp = this.server.tree.ftp;
-
+        this.ftp = server.tree.ftp;
         next();
     },
 
-    tearDown: function(next) {
-        exec('/bin/launchctl', ['unload', '-w', '/System/Library/LaunchDaemons/ftp.plist']);
+    tearDownSuite: function(next) {
+        //exec('/bin/launchctl', ['unload', '-w', '/System/Library/LaunchDaemons/ftp.plist']);
+        
+        this.server.tree.unmount();
         this.server = null;
         next();
     },
-    /** Note: basically all tests can ass<ume user is authorized after this,
-      * because checkings are done in each required FTP method */
-    "test ftp connect": function(next) {
-        console.log(this.ftp)
+    "test Ftp connect": function(next) {
         var self = this;
         function assertError(e) {
             if (e) throw e;
@@ -52,20 +50,22 @@ module.exports = {
         };
 
         this.ftp.on("connect", function() {
-            console.log("FTP connected")
             next();
         });
-
         this.ftp.on("error", assertError)
         this.ftp.on("timeout", assertError)
 
         this.ftp.connect(_c.port, _c.host);
     },
-   "test User logs in, lists root directory, logs out": funciton() {
-        var self = this;
-        self.ftp.auth(_c.username, _c.passwd, function(err) {
+   "test User logs in, lists root directory, logs out": function(next) {
+        var _self = this;
+        this.ftp.auth(_c.username, _c.passwd, function(err) {
             assert.ok(!err);
-            next();
+            _self.ftp.readdir("/", function(err, nodes) {
+                assert.ok(!err);
+                assert.ok(_.isArray(nodes));
+                next();
+            });
         });
     }
 };
