@@ -1,7 +1,7 @@
 /*
  * @package jsDAV
  * @subpackage DAV
- * @copyright Copyright (C) 2010 Mike de Boer. All rights reserved.
+ * @copyright Copyright(c) 2011 Ajax.org B.V. <info AT ajax.org>
  * @author Mike de Boer <mike AT ajax DOT org>
  * @license http://github.com/mikedeboer/jsDAV/blob/master/LICENSE MIT License
  */
@@ -18,4 +18,8 @@ var server = Http.createServer(function(req, resp) {
 
 server.listen(8080, "127.0.0.1");
 
-jsDAV.mount(__dirname + "/assets", "test", server);
+jsDAV.mount({
+    path: __dirname + "/assets",
+    mount: "test",
+    server: server
+});

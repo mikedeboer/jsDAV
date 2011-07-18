@@ -7,3 +7,9 @@
 [submodule "support/node-o3-xml-v4"]
 	path = support/node-o3-xml-v4
 	url = http://github.com/ajaxorg/node-o3-xml-v4.git
+[submodule "support/node-sftp"]
+	path = support/node-sftp
+	url = git://github.com/ajaxorg/node-sftp.git
+[submodule "support/node-ssh"]
+	path = support/node-ssh
+	url = git@github.com:ajaxorg/node-ssh.git
