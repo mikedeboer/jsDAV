@@ -1,0 +1,59 @@
+#!/bin/sh
+# Copyright (c) 2001-2005, 2008 Joe Orton <litmus@lists.manyfish.co.uk>
+
+prefix=/usr/local
+exec_prefix=/usr/local
+libexecdir=${exec_prefix}/libexec
+datadir=${datarootdir}
+datarootdir=${prefix}/share
+
+HTDOCS=${HTDOCS-"${datarootdir}/litmus/htdocs"}
+TESTROOT=${TESTROOT-"${exec_prefix}/libexec/litmus"}
+TESTS=${TESTS-"basic copymove props locks http"}
+
+usage() {
+    cat <<EOF
+litmus: Usage: $0 [OPTIONS] URL [USERNAME PASSWORD]
+
+Options:
+ -k, --keep-going  carry on testing even if one suite fails
+ -p, --proxy=URL   use given proxy server URL
+
+Significant environment variables:
+
+    \$TESTS     - specify test programs to run
+        default: "basic copymove props locks http"
+    \$HTDOCS    - specify alternate document root
+        default: ${datarootdir}/litmus/htdocs
+    \$TESTROOT  - specify alternate program directory
+        default: ${exec_prefix}/libexec/litmus
+
+Feedback to <litmus@webdav.org>.
+EOF
+    exit 1
+}
+
+nofail=0
+
+case $1 in
+--help|-h) usage ;;
+--keep-going|-k) nofail=1; shift ;;
+--version) echo litmus 0.12.1; exit 0 ;;
+esac
+
+test "$#" = "0" && usage
+
+for t in $TESTS; do
+    tprog="${TESTROOT}/${t}"
+    if test -x ${tprog}; then
+	if ${tprog} --htdocs ${HTDOCS} "$@"; then
+	    : pass
+	elif test $nofail -eq 0; then
+	    echo "See debug.log for network/debug traces."
+	    exit 1
+	fi
+    else
+	echo "ERROR: Could not find ${tprog}"
+	exit 1
+    fi
+done
