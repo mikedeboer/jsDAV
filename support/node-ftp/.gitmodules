@@ -1,0 +1,3 @@
+[submodule "support/underscore"]
+	path = support/underscore
+	url = https://github.com/documentcloud/underscore.git
