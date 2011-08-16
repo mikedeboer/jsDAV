@@ -10,9 +10,6 @@
 [submodule "support/node-sftp"]
 	path = support/node-sftp
 	url = git://github.com/ajaxorg/node-sftp.git
-[submodule "support/node-ssh"]
-	path = support/node-ssh
-	url = git://github.com/ajaxorg/node-ssh.git
 [submodule "support/node-ftp"]
 	path = support/node-ftp
 	url = git://github.com/ajaxorg/node-ftp.git
