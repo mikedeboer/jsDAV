@@ -4,7 +4,16 @@ var Fs     = require("fs");
 var exec   = require('child_process').spawn;
 var jsDAV  = require("./../lib/jsdav");
 var Http   = require("http");
-var _      = require("../support/node-ftp/support/underscore");
+var _      = {
+    extend: function(obj) {
+        Array.prototype.slice.call(arguments, 1).forEach(function(source) {
+          for (var prop in source)
+            if (source[prop] !== void 0)
+                obj[prop] = source[prop];
+        });
+        return obj;
+    };
+};
 
 var _c = {
     host: "www.linhnguyen.nl",
@@ -20,7 +29,7 @@ module.exports = {
 
     setUpSuite: function(next) {
         //exec('/bin/launchctl', ['load', '-w', '/System/Library/LaunchDaemons/ftp.plist']);
-        
+
         var server = this.server = jsDAV.createServer({
             type: "ftp",
             node: "/c9",
@@ -38,12 +47,12 @@ module.exports = {
 
     tearDownSuite: function(next) {
         //exec('/bin/launchctl', ['unload', '-w', '/System/Library/LaunchDaemons/ftp.plist']);
-        
+
         this.server.tree.unmount();
         this.server = null;
         next();
     },
-    
+
     "test Ftp connect": function(next) {
         var self = this;
         function assertError(e) {
@@ -59,14 +68,14 @@ module.exports = {
 
         this.ftp.connect(_c.port, _c.host);
     },
-    
+
    "test User logs in, lists root directory, logs out": function(next) {
         var _self = this;
         this.ftp.auth(_c.username, _c.pass, function(err) {
             assert.ok(!err);
             _self.ftp.readdir("/", function(err, nodes) {
                 assert.ok(!err);
-                assert.ok(_.isArray(nodes));
+                assert.ok(Array.isArray(nodes));
                 next();
             });
         });
@@ -96,7 +105,7 @@ module.exports = {
             });
         });
         request.end();
-        
+
         function afterPropfind() {
             var successes = 0,
                 _self = this;
@@ -167,7 +176,7 @@ module.exports = {
             }, 1000);
         }
     },
-    
+
     getHttpReqOptions: function(exclude_headers, exclude) {
         var options = {
             host: "127.0.0.1",
@@ -188,13 +197,13 @@ module.exports = {
                 //"X-Requested-With": "XMLHttpRequest"
             }
         };
-        if (_.isArray(exclude_headers)) {
+        if (Array.isArray(exclude_headers)) {
             Object.keys(options.headers).forEach(function(key) {
                 if (exclude_headers.indexOf(key) > -1)
                     delete options.headers[key];
             });
         }
-        if (_.isArray(exclude)) {
+        if (Array.isArray(exclude)) {
             Object.keys(options).forEach(function(key) {
                 if (exclude.indexOf(key) > -1)
                     delete options[key];
