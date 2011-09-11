@@ -11,11 +11,11 @@ Features
  * Supports Windows XP, Windows Vista, Mac OS/X, DavFSv2, Cadaver, Netdrive, Open Office, and probably more
  * Supporting class 1, 2 and 3 Webdav servers
  * Custom property support
+ * Locking support
 
 Features in development
 -----------------------
 
- * Locking support (feature complete, but untested)
  * Pass all Litmus tests
  * CalDAV (to be tested with Evolution, iCal, iPhone and Lightning).
 
