@@ -12,4 +12,4 @@
 	url = git://github.com/ajaxorg/node-sftp.git
 [submodule "support/jsftp"]
 	path = support/jsftp
-	url = git@github.com:sergi/jsftp.git
+	url = git@github.com:ajaxorg/jsftp.git
