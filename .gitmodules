@@ -1,15 +1,15 @@
 [submodule "support/async.js"]
 	path = support/async.js
-	url = git://github.com/fjakobs/async.js.git
+	url = https://github.com/fjakobs/async.js.git
 [submodule "support/formidable"]
 	path = support/formidable
-	url = git://github.com/felixge/node-formidable.git
+	url = https://github.com/felixge/node-formidable.git
 [submodule "support/node-o3-xml-v4"]
 	path = support/node-o3-xml-v4
-	url = git://github.com/ajaxorg/node-o3-xml-v4.git
+	url = https://github.com/ajaxorg/node-o3-xml-v4.git
 [submodule "support/node-sftp"]
 	path = support/node-sftp
-	url = git://github.com/ajaxorg/node-sftp.git
+	url = https://github.com/ajaxorg/node-sftp.git
 [submodule "support/jsftp"]
 	path = support/jsftp
-	url = git@github.com:ajaxorg/jsftp.git
+	url = https://github.com/ajaxorg/jsftp.git
