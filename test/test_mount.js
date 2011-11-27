@@ -5,6 +5,7 @@
  * @author Mike de Boer <mike AT ajax DOT org>
  * @license http://github.com/mikedeboer/jsDAV/blob/master/LICENSE MIT License
  */
+"use strict";
 
 var Sys   = require("sys"),
     Http  = require("http"),

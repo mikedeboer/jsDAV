@@ -5,6 +5,7 @@
  * @author Mike de Boer <info AT mikedeboer DOT nl>
  * @license http://github.com/mikedeboer/jsDAV/blob/master/LICENSE MIT License
  */
+"use strict";
 
 var jsDAV = require("./../lib/jsdav");
 
