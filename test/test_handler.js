@@ -20,7 +20,7 @@ var Handler = function () {
 		"a": {type: "folder", contents: {
 			"aa": {type: "folder", contents: {}},
 			"a1.txt": {type: "file", contents: "this is file 1"}
-		}},	
+		}},
 		"b": {type: "folder", contents: {
 			"ba": {type: "folder", contents: {
 				"ba1.txt": {type: "file", contents: "this is file 3"}
@@ -46,21 +46,21 @@ Handler.prototype.getSpace = function (path, cb) {
 Handler.prototype.getNode = function (path) {
 	var pwd = this.fs;
 
-	console.log("getNode", path, path.split("/"));
-
 	if (path === "" || path == "/") {
 		return pwd;
 	}
 
-	path.split("/").forEach(function (part) {
+	var parts = path.split("/");
+
+	for (var i = 0; i < parts.length; i++) {
+		var part = parts[i];
+
 		if (pwd.contents[part]) {
 			pwd = pwd.contents[part];
 		} else {
 			return null;
 		}
-	});
-
-	console.log("--Got node", pwd);
+	};
 
 	return pwd;
 };
@@ -80,7 +80,7 @@ Handler.prototype.ls = function (path, cb) {
 			files.push(name);
 		}
 	};
-	
+
 	cb(null, folders, files);
 };
 
@@ -89,14 +89,17 @@ Handler.prototype.isFolder = function (path, cb) {
 
 	if (!pwd) {
 		cb("Path not found");
+		console.log("is folder", path, "not found");
 	} else {
 		cb(null, pwd.type == "folder");
+		console.log("is folder", path, pwd.type == "folder");
 	}
 };
 
 Handler.prototype.exists = function (path, cb) {
 	var pwd = this.getNode(path);
 
+	console.log("path exists", path, pwd !== null);
 	cb(null, pwd !== null);
 };
 
@@ -111,13 +114,28 @@ Handler.prototype.getFile = function (path, cb) {
 };
 
 Handler.prototype.getFileSize = function (path, cb) {
-	console.log("get file size");
-	cb(null, "This is a file".length);
+	console.log("get file size", path);
+
+	var pwd = this.getNode(path);
+
+	if (!pwd || pwd.type != "file") {
+		cb("file not found");
+		console.log("file size not found");
+	} else {
+		cb(null, pwd.contents.length);
+	}
 };
 
 Handler.prototype.getLastModified = function (path, cb) {
 	console.log("get last modified", path);
-	cb(null, new Date().getTime());
+	var pwd = this.getNode(path);
+
+	if (!pwd) {
+		cb("file not found");
+		console.log("file last modified not found");
+	} else {
+		cb(null, new Date().toUTCString());
+	}
 };
 
 Handler.prototype.renameFile = function (oldPath, newPath, cb) {
@@ -126,8 +144,24 @@ Handler.prototype.renameFile = function (oldPath, newPath, cb) {
 };
 
 Handler.prototype.putFile = function (path, data, cb) {
-	console.log("put file", path);
-	cb(null);
+	path = path.split("/");
+	var file = path.pop();
+	path = path.join("/");
+
+	console.log("put file", path, file, data);
+
+	var pwd = this.getNode(path);
+
+	if (!pwd) {
+		cb("Path not found");
+	} else {
+		if (!pwd.contents[file]) {
+			pwd.contents[file] = {type: "file"};
+		}
+
+		pwd.contents[file].contents = data.toString();
+		cb("saved");
+	}
 };
 
 Handler.prototype.deleteFile = function (path, cb) {
