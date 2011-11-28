@@ -104,13 +104,37 @@ Handler.prototype.exists = function (path, cb) {
 };
 
 Handler.prototype.createFolder = function (path, cb) {
-	console.log("create folder", path);
-	cb(null, "Created folder?");
+	path = path.split("/");
+	var folder = path.pop();
+	path = path.join("/");
+
+	console.log("create folder", path, folder);
+
+	var pwd = this.getNode(path);
+
+	if (!pwd) {
+		cb("Path not found");
+	} else {
+		if (pwd.contents[folder]) {
+			return cb("Path already exists");
+		}
+
+		pwd.contents[folder] = {type: "folder", contents: []};
+		cb(null);
+	}
 };
 
 Handler.prototype.getFile = function (path, cb) {
 	console.log("get file", path);
-	cb(null, "This is a file");
+
+	var pwd = this.getNode(path);
+	
+	if (!pwd || pwd.type != "file") {
+		cb("file not found");
+		console.log("file size not found");
+	} else {
+		cb(null, pwd.contents);
+	}
 };
 
 Handler.prototype.getFileSize = function (path, cb) {
@@ -166,12 +190,36 @@ Handler.prototype.putFile = function (path, data, cb) {
 
 Handler.prototype.deleteFile = function (path, cb) {
 	console.log("delete file", path);
-	cb(null);
+
+	path = path.split("/");
+	var file = path.pop();
+	path = path.join("/");
+
+	var pwd = this.getNode(path);
+
+	if(!pwd) {
+		cb("Path not found");
+	} else {
+		delete pwd.contents[file];
+		cb(null);
+	}
 };
 
 Handler.prototype.deleteFolder = function (path, cb) {
 	console.log("delete folder", path);
-	cb(null);
+
+	path = path.split("/");
+	var folder = path.pop();
+	path = path.join("/");
+
+	var pwd = this.getNode(path);
+
+	if(!pwd) {
+		cb("Path not found");
+	} else {
+		delete pwd.contents[folder];
+		cb(null);
+	}
 };
 
 jsDAV.createServer({
