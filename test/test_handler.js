@@ -92,7 +92,6 @@ Handler.prototype.isFolder = function (path, cb) {
 		console.log("is folder", path, "not found");
 	} else {
 		cb(null, pwd.type == "folder");
-		console.log("is folder", path, pwd.type == "folder");
 	}
 };
 
@@ -158,7 +157,11 @@ Handler.prototype.getLastModified = function (path, cb) {
 		cb("file not found");
 		console.log("file last modified not found");
 	} else {
-		cb(null, new Date().toUTCString());
+		if (!pwd.lastMod) {
+			pwd.lastMod = new Date().toUTCString();
+		}
+
+		cb(null, pwd.lastMod);
 	}
 };
 
@@ -183,6 +186,7 @@ Handler.prototype.putFile = function (path, data, cb) {
 			pwd.contents[file] = {type: "file"};
 		}
 
+		pwd.lastMod = new Date().toUTCString();
 		pwd.contents[file].contents = data.toString();
 		cb("saved");
 	}
