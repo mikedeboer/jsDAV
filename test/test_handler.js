@@ -118,7 +118,7 @@ Handler.prototype.createFolder = function (path, cb) {
 			return cb("Path already exists");
 		}
 
-		pwd.contents[folder] = {type: "folder", contents: []};
+		pwd.contents[folder] = {type: "folder", contents: {}};
 		cb(null);
 	}
 };
