@@ -170,6 +170,59 @@ Handler.prototype.renameFile = function (oldPath, newPath, cb) {
 	cb(null, "renamed file");
 };
 
+function clone(x) {
+    if (x.clone) {
+        return x.clone();
+	}
+
+    if (x.constructor == Array) {
+        var r = [];
+        for (var i=0,n=x.length; i<n; i++) {
+            r.push(clone(x[i]));
+		}
+
+        return r;
+    }
+    return x;
+}
+
+Handler.prototype.copyPath = function (src, dest, cb) {
+	console.log("copy path", src, dest);
+
+	var pwd = this.getNode(src);
+
+	dest = dest.split("/");
+	var destName = dest.pop();
+	dest = dest.join("/");
+
+	dest = this.getNode(dest);
+
+	dest.contents[destName] = clone(pwd);
+
+	cb(null);
+};
+
+Handler.prototype.movePath = function (src, dest, cb) {
+	console.log("move path", src, dest);
+
+	src = src.split("/");
+	var name = src.pop();
+	src = src.join("/");
+
+	var pwd = this.getNode(src);
+	var srcObj = pwd.contents[name];
+	delete pwd.contents[name];
+
+	dest = dest.split("/");
+	name = dest.pop();
+	dest = dest.join("/");
+
+	pwd = this.getNode(dest);
+	pwd.contents[name] = srcObj;
+
+	cb(null);
+}
+
 Handler.prototype.putFile = function (path, data, cb) {
 	path = path.split("/");
 	var file = path.pop();
