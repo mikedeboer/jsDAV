@@ -1,7 +1,10 @@
 
 var jsDAV = require('./../lib/jsdav');
-jsDAV.debugMode = true;
+//jsDAV.debugMode = true;
 
+var Util = require("./../lib/DAV/util");
+
+var jsDAV_iCollection = require("./../lib/DAV/iCollection").jsDAV_iCollection;
 var jsDav_iProperties = require("./../lib/DAV/iProperties").jsDAV_iProperties;
 
 var jsDAV_SimpleDirectory = require("./../lib/DAV/simpleDirectory").jsDAV_SimpleDirectory;
@@ -9,122 +12,80 @@ var jsDAV_Directory   = require("./../lib/DAV/directory").jsDAV_Directory;
 var jsDAV_ServerPlugin = require("./../lib/DAV/plugin").jsDAV_ServerPlugin;
 var jsDAV_Property = require("./../lib/DAV/property").jsDAV_Property;
 
-var Exc = require("./../lib/DAV/exceptions");
+var jsDAV_iPrincipalBackend = require("./../lib/DAVACL/iPrincipalBackend").jsDAV_iPrincipalBackend;
+var jsDAV_PrincipalCollection = require("./../lib/DAVACL/principals").jsDAV_PrincipalCollection;
+
+var jsDAV_Auth_Backend_AbstractDigest = require("./../lib/DAV/plugins/auth/abstractDigest");
+var jsDAV_DAVACL_Plugin = require("./../lib/DAVACL/plugin");
+var jsDAV_CalDAV_Plugin = require("./../lib/CalDAV/plugin").jsDAV_CalDAV_Plugin;
+
 
 ////////////////////
 
-function jsDAV_Property_CurrentUserPrincpal(user) {
-    this.user = user;
-}
+function Test_PrincipalBackend() { }
 
 (function() {
-    this.serialize = function(handler, lmDom) {
-        // TODO: Return a real value from this...
-        return lmDom+'<unauthenticated/>'
-    }
-}).call(jsDAV_Property_CurrentUserPrincpal.prototype = new jsDAV_Property());
-
-////////////////////
-
-function jsDAV_Calendar() {
-}
-
-(function() {
-    this.implement(jsDav_iProperties);
-
-    /**
-     * Returns a list of properties for this nodes.
-     *
-     * The properties list is a list of propertynames the client requested,
-     * encoded in clark-notation {xmlnamespace}tagname
-     *
-     * If the array is empty, it means 'all properties' were requested.
-     *
-     * @param {Object} properties
-     * @return void
-     */
-    this.getProperties = function(properties) {
-        return {
-            '{DAV:}current-user-principal': new jsDAV_Property_CurrentUserPrincpal()
+    this.principals = [
+        {
+            'uri': 'principals/admin'
         }
-    }
-}).call(jsDAV_Calendar.prototype = new jsDAV_Directory());
+    ];
 
+    this.getPrincipalsByPrefix = function(prefixPath, callback) {
+        callback(null, this.principals);
+    }
+
+    this.getPrincipalByPath = function(path, callback) {
+        for(var i=0; i<this.principals.length; ++i)
+            if(this.principals[i]['uri'] == path)
+                return callback(null, this.principals[i]);
+
+        callback();
+    }
+
+    this.searchPrincipals = function(prefixPath, searchProperties, callback) {
+        callback();
+    }
+
+    this.getGroupMemberSet = function(principal, callback) {
+        callback();
+    }
+
+    this.getGroupMembership = function(principal, callback) {
+        callback();
+    }
+
+    this.setGroupMemberSet = function(principal, members, callback) {
+        callback();
+    }
+}).call(Test_PrincipalBackend.prototype = new jsDAV_iPrincipalBackend());
 
 ////////////////////
 
-var root = new jsDAV_Calendar();
-root._label = "CalDAV Test Node";
+function Test_Auth_Backend() { }
+
+(function() {
+    this.getDigestHash = function(realm, username, cbdighash) {
+        if(username == 'admin')
+            cbdighash(null, Util.md5('admin:CalDAV Test Realm:admin'));
+        else
+            cbdighash(null, null);
+    }
+}).call(Test_Auth_Backend.prototype = new jsDAV_Auth_Backend_AbstractDigest());
+
+////////////////////
+
+var root = new jsDAV_SimpleDirectory('root', [
+    new jsDAV_PrincipalCollection(new Test_PrincipalBackend(), "principals")
+]);
 
 var server = jsDAV.createServer({
     node: root,
-    standalone: true
+    standalone: true,
+    realm: "CalDAV Test Realm",
+    authBackend: new Test_Auth_Backend()
 });
 
-
-////////////////////
-
-function jsDAV_CalDAV_Plugin(handler) {
-    this.handler = handler;
-    this.initialize();
-}
-
-(function() {
-    this.initialize = function() {
-        this.handler.addEventListener("unknownMethod", this.unknownMethod.bind(this));
-        this.handler.addEventListener("beforeMethod", this.beforeMethod.bind(this));
-    }
-
-    this.unknownMethod = function(e, method) {
-        if(method == 'MKCALENDAR')
-            this.httpMkcalendar(e);
-        else
-            e.next();
-    }
-
-    this.getFeatures = function() {
-        return ['calendar-access'];
-    }
-
-    this.getHTTPMethods = function(uri, node) {
-        return [];
-    }
-
-    this.beforeMethod = function(e, method) {
-        var req = this.handler.httpRequest;
-        // TODO: Test preconditions for PUT, MOVE and COPY:
-        //   (CALDAV:supported-calendar-data)
-        //   (CALDAV:valid-calendar-data)
-        //   (CALDAV:valid-calendar-object-resource)
-        //   (CALDAV:supported-calendar-component)
-        //   (CALDAV:no-uid-conflict)
-        //   (CALDAV:calendar-collection-location-ok)
-        //   (CALDAV:max-resource-size)
-        //   (CALDAV:min-date-time)
-        //   (CALDAV:max-date-time)
-        //   (CALDAV:max-instances)
-        //   (CALDAV:max-attendees-per-instance)
-        
-        switch(method) {
-            case "PUT":
-                break;
-
-            case "MOVE":
-                break;
-
-            case "COPY":
-                break;
-        }
-
-        e.next(null);
-    }
-
-    this.httpMkcalendar = function(e) {
-        // I put this here for completeness sake, but supporting MKCALENDAR
-        // is impossible without making changes to http_parser and Node.js itself
-        e.next(new Exc.jsDAV_Exception_Forbidden("MKCALENDAR is not supported"));
-    }
-}).call(jsDAV_CalDAV_Plugin.prototype = new jsDAV_ServerPlugin());
-
-
+server.plugins['davacl'] = jsDAV_DAVACL_Plugin;
 server.plugins['caldav'] = jsDAV_CalDAV_Plugin;
+
