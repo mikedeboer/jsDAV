@@ -17,8 +17,9 @@ var jsDAV_PrincipalCollection = require("./../lib/DAVACL/principals").jsDAV_Prin
 
 var jsDAV_Auth_Backend_AbstractDigest = require("./../lib/DAV/plugins/auth/abstractDigest");
 var jsDAV_DAVACL_Plugin = require("./../lib/DAVACL/plugin");
-var jsDAV_CalDAV_Plugin = require("./../lib/CalDAV/plugin").jsDAV_CalDAV_Plugin;
+var jsDAV_CalDAV_Plugin = require("./../lib/CalDAV/plugin");
 var jsDAV_CalDAV_CalendarRootNode = require("./../lib/CalDAV/calendarRootNode").jsDAV_CalDAV_CalendarRootNode;
+var jsDAV_CalDAV_iBackend = require('./../lib/CalDAV/iCalDAVBackend').jsDAV_CalDAV_iBackend;
 
 
 ////////////////////
@@ -63,6 +64,26 @@ function Test_PrincipalBackend() { }
 
 ////////////////////
 
+function Test_CalDAV_Backend() { }
+
+(function() {
+    this.calendars = {
+        'principals/admin': [
+            {
+                'name': 'calendar',
+                'uri': 'calendar'
+            }
+        ]
+    }
+
+    this.getCalendarsForUser = function(principalUri, callback) {
+        var cal = this.calendars[principalUri];
+        callback(null, cal);
+    }
+}).call(Test_CalDAV_Backend.prototype = new jsDAV_CalDAV_iBackend());
+
+////////////////////
+
 function Test_Auth_Backend() { }
 
 (function() {
@@ -77,10 +98,11 @@ function Test_Auth_Backend() { }
 ////////////////////
 
 var principalBackend = new Test_PrincipalBackend();
+var calendarBackend = new Test_CalDAV_Backend();
 
 var root = new jsDAV_SimpleDirectory('root', [
     new jsDAV_PrincipalCollection(principalBackend, "principals"),
-    new jsDAV_CalDAV_CalendarRootNode(principalBackend)
+    new jsDAV_CalDAV_CalendarRootNode(principalBackend, calendarBackend)
 ]);
 
 var server = jsDAV.createServer({
