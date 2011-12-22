@@ -71,7 +71,8 @@ function Test_CalDAV_Backend() { }
         'principals/admin': [
             {
                 'name': 'calendar',
-                'uri': 'calendar'
+                'uri': 'calendar',
+                'principaluri': 'principals/admin'
             }
         ]
     }
