@@ -1,6 +1,6 @@
 
 var jsDAV = require('./../lib/jsdav');
-//jsDAV.debugMode = true;
+jsDAV.debugMode = true;
 
 var Util = require("./../lib/DAV/util");
 
@@ -80,6 +80,32 @@ function Test_CalDAV_Backend() { }
     this.getCalendarsForUser = function(principalUri, callback) {
         var cal = this.calendars[principalUri];
         callback(null, cal);
+    }
+
+    this.createCalendar = function(principalUri, calendarUri, properties, callback) {
+    }
+
+    this.updateCalendar = function(calendarId, mutations, callback) {
+        console.log('updateCalendar', calendarId, mutations);
+        callback(null);
+    }
+
+    this.deleteCalendar = function(calendarId, callback) {
+    }
+
+    this.getCalendarObjects = function(calendarId, callback) {
+    }
+
+    this.getCalendarObject = function(calendarId, objectUri) {
+    }
+
+    this.createCalendarObject = function(calendarId, objectUri, calendarData, callback) {
+    }
+
+    this.updateCalendarObject = function(calendarId, objectUri, calendarData, callback) {
+    }
+
+    this.deleteCalendarObject = function(calendarId, objectUri, callback) {
     }
 }).call(Test_CalDAV_Backend.prototype = new jsDAV_CalDAV_iBackend());
 
