@@ -83,6 +83,7 @@ function Test_CalDAV_Backend() { }
     }
 
     this.createCalendar = function(principalUri, calendarUri, properties, callback) {
+        callback();
     }
 
     this.updateCalendar = function(calendarId, mutations, callback) {
@@ -91,21 +92,27 @@ function Test_CalDAV_Backend() { }
     }
 
     this.deleteCalendar = function(calendarId, callback) {
+        callback();
     }
 
     this.getCalendarObjects = function(calendarId, callback) {
+        callback(null, []);
     }
 
-    this.getCalendarObject = function(calendarId, objectUri) {
+    this.getCalendarObject = function(calendarId, objectUri, callback) {
+        callback(null, null);
     }
 
     this.createCalendarObject = function(calendarId, objectUri, calendarData, callback) {
+        callback();
     }
 
     this.updateCalendarObject = function(calendarId, objectUri, calendarData, callback) {
+        callback();
     }
 
     this.deleteCalendarObject = function(calendarId, objectUri, callback) {
+        callback();
     }
 }).call(Test_CalDAV_Backend.prototype = new jsDAV_CalDAV_iBackend());
 
