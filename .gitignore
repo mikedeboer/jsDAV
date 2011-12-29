@@ -7,3 +7,4 @@ debug.log
 search.txt
 test/output.xml
 *.swp
+node_modules

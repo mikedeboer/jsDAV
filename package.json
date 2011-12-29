@@ -11,6 +11,9 @@
         "type" : "git",
          "url" : "http://github.com/mikedeboer/jsDAV.git"
     },
+    "dependencies": {
+        "libxmljs": "0.4.x"
+    },
     "licenses": [{
         "type": "The MIT License",
         "url": "http://www.opensource.org/licenses/mit-license.php"}
