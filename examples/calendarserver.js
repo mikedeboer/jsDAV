@@ -1,4 +1,6 @@
 
+var fs = require('fs');
+
 var jsDAV = require('./../lib/jsdav');
 jsDAV.debugMode = true;
 
@@ -64,21 +66,60 @@ function Test_PrincipalBackend() { }
 
 ////////////////////
 
-function Test_CalDAV_Backend() { }
+function Test_CalDAV_Backend() {
+    try {
+        var data = JSON.parse(fs.readFileSync('calendar_data.json'));
+        this.calendars = data.calendars;
+        this.calendarData = data.calendarData;
+        this.userCalendars = data.userCalendars;
+    }
+    catch(e) {
+        // Use starting data...
+    }
+}
 
 (function() {
+    // All calendars indexed by ID
     this.calendars = {
+        '02753F9A-4F10-4BC3-A546-03124715C2A9': {
+            'name': 'calendar',
+            'uri': 'calendar',
+            'principaluri': 'principals/admin',
+
+            '{DAV:}displayname': 'Test Calendar'
+        }
+    };
+
+    this.calendarData = {
+        '02753F9A-4F10-4BC3-A546-03124715C2A9': {}
+    };
+
+    // Calendars for each user
+    this.userCalendars = {
         'principals/admin': [
-            {
-                'name': 'calendar',
-                'uri': 'calendar',
-                'principaluri': 'principals/admin'
-            }
+            '02753F9A-4F10-4BC3-A546-03124715C2A9'
         ]
     }
 
+    this.saveCalendar = function(callback) {
+        // Save calendar data to a json file...
+        var data = JSON.stringify({
+            calendars: this.calendars,
+            calendarData: this.calendarData,
+            userCalendars: this.userCalendars
+        });
+        fs.writeFile('calendar_data.json', data, 'utf8', callback);
+    }
+
     this.getCalendarsForUser = function(principalUri, callback) {
-        var cal = this.calendars[principalUri];
+        console.log('getCalendarsForUser', principalUri);
+        var cal = [];
+        for(var i=0; i<this.userCalendars[principalUri].length; ++i) {
+            var id = this.userCalendars[principalUri][i];
+            var cdata = this.calendars[id];
+            cdata.id = id;
+            cal.push(cdata);
+        }
         callback(null, cal);
     }
 
@@ -86,33 +127,57 @@ function Test_CalDAV_Backend() { }
         callback();
     }
 
-    this.updateCalendar = function(calendarId, mutations, callback) {
-        console.log('updateCalendar', calendarId, mutations);
-        callback(null);
-    }
-
     this.deleteCalendar = function(calendarId, callback) {
         callback();
     }
 
+    this.updateCalendar = function(calendarId, mutations, callback) {
+        console.log('updateCalendar', calendarId, mutations);
+        var cal = this.calendars[calendarId];
+        if(cal === undefined) return callback(new Exc.jsDAV_Exception_FileNotFound("No such calendar"));
+
+        for(var prop in mutations) {
+            cal[prop] = mutations[prop];
+        }
+
+        this.saveCalendar(callback);
+    }
+
     this.getCalendarObjects = function(calendarId, callback) {
-        callback(null, []);
+        var objs = [];
+        for(var k in this.calendarData[calendarId]) {
+            var obj = this.calendarData[calendarId][k];
+            obj.calendarid = calendarId;
+            obj.uri = k;
+            objs.push(obj);
+        }
+        callback(null, objs);
     }
 
     this.getCalendarObject = function(calendarId, objectUri, callback) {
-        callback(null, null);
+        callback(null, this.calendarData[calendarId][objectUri]);
     }
 
     this.createCalendarObject = function(calendarId, objectUri, calendarData, callback) {
-        callback();
+        console.log('createCalendarObject', calendarId, objectUri, calendarData);
+        this.calendarData[calendarId][objectUri] = {
+            calendarid: calendarId,
+            uri: objectUri,
+            calendardata: calendarData
+        };
+        this.saveCalendar(callback);
     }
 
     this.updateCalendarObject = function(calendarId, objectUri, calendarData, callback) {
-        callback();
+        console.log('updateCalendarObject', calendarId, objectUri, calendarData);
+        this.calendarData[calendarId][objectUri].calendardata = calendarData;
+        this.saveCalendar(callback);
     }
 
     this.deleteCalendarObject = function(calendarId, objectUri, callback) {
-        callback();
+        console.log('updateCalendarObject', calendarId, objectUri);
+        delete this.calendarData[calendarId][objectUri];
+        this.saveCalendar(callback);
     }
 }).call(Test_CalDAV_Backend.prototype = new jsDAV_CalDAV_iBackend());
 
