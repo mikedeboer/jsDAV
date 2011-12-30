@@ -72,6 +72,14 @@ function Test_CalDAV_Backend() {
         this.calendars = data.calendars;
         this.calendarData = data.calendarData;
         this.userCalendars = data.userCalendars;
+
+        for(var cal_id in this.calendarData) {
+            for(var id in this.calendarData[cal]) {
+                var obj = this.calendarData[cal][id];
+                // Convert lastmodified back into date objects
+                obj.lastmodified = new Date(Date.parse(obj.lastmodified));
+            }
+        }
     }
     catch(e) {
         // Use starting data...
@@ -163,14 +171,17 @@ function Test_CalDAV_Backend() {
         this.calendarData[calendarId][objectUri] = {
             calendarid: calendarId,
             uri: objectUri,
-            calendardata: calendarData
+            calendardata: calendarData,
+            lastmodified: new Date()
         };
         this.saveCalendar(callback);
     }
 
     this.updateCalendarObject = function(calendarId, objectUri, calendarData, callback) {
         console.log('updateCalendarObject', calendarId, objectUri, calendarData);
-        this.calendarData[calendarId][objectUri].calendardata = calendarData;
+        var obj = this.calendarData[calendarId][objectUri];
+        obj.calendardata = calendarData;
+        obj.lastmodified = new Date();
         this.saveCalendar(callback);
     }
 
