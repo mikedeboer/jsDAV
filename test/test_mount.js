@@ -7,14 +7,13 @@
  */
 "use strict";
 
-var Sys   = require("sys"),
-    Http  = require("http"),
+var Http  = require("http"),
     jsDAV = require("./../lib/jsdav");
 
 jsDAV.debugMode = true;
 
 var server = Http.createServer(function(req, resp) {
-    Sys.puts("Incoming request in other handler...");
+    console.log("Incoming request in other handler...");
 });
 
 server.listen(8080, "127.0.0.1");
