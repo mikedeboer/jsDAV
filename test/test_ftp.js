@@ -219,4 +219,4 @@ process.on("exit", function() {
         module.exports.conn.end();
 });
 
-!module.parent && require("./../support/async.js/lib/test").testcase(module.exports, "FTP"/*, timeout*/).exec();
+!module.parent && require("./../node_modules /async.js/lib/test").testcase(module.exports, "FTP"/*, timeout*/).exec();
