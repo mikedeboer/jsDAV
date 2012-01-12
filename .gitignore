@@ -6,5 +6,6 @@ child.log
 debug.log
 search.txt
 test/output.xml
+examples/calendar_data.json
 *.swp
 node_modules

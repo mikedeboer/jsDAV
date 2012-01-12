@@ -68,7 +68,7 @@ function Test_PrincipalBackend() { }
 
 function Test_CalDAV_Backend() {
     try {
-        var data = JSON.parse(fs.readFileSync('calendar_data.json'));
+        var data = JSON.parse(fs.readFileSync(__dirname+'/calendar_data.json'));
         this.calendars = data.calendars;
         this.calendarData = data.calendarData;
         this.userCalendars = data.userCalendars;
@@ -117,7 +117,7 @@ function Test_CalDAV_Backend() {
             calendarData: this.calendarData,
             userCalendars: this.userCalendars
         }, null, ' ');
-        fs.writeFile('calendar_data.json', data, 'utf8', callback);
+        fs.writeFile(__dirname+'/calendar_data.json', data, 'utf8', callback);
     }
 
     this.getCalendarsForUser = function(principalUri, callback) {
