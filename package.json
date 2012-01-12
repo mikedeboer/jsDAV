@@ -5,7 +5,9 @@
     "homepage" : "http://github.com/mikedeboer/jsDAV",
     "engines": {"node": ">= 0.4.0"},
     "author": "Mike de Boer <info@mikedeboer.nl>",
-    "scripts": {"test": "node test/test_server.js"},
+    "scripts": {
+        "test": "node test/test_server.js"
+    },
     "main": "lib/jsdav",
     "repository" : {
         "type" : "git",
@@ -13,6 +15,8 @@
     },
     "dependencies": {
         "libxmljs": "0.4.x"
+        "asyncjs": "0.0.5",
+        "formidable": "1.0.8"
     },
     "licenses": [{
         "type": "The MIT License",

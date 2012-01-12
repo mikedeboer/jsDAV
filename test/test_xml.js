@@ -9,7 +9,6 @@
 
 var Util   = require("./../lib/DAV/util"),
     Assert = require("assert"),
-    sys    = require("sys"),
     K      = function() {},
 
     onStartDocument = K,
@@ -31,33 +30,33 @@ function setUp() {
             onEndDocument();
         });
         cb.onStartElementNS(function(elem, attrs, prefix, uri, namespaces) {
-            sys.puts("=> Started: " + elem + " uri="+uri +" (Attributes: " + JSON.stringify(attrs) + " )");
+            console.log("=> Started: " + elem + " uri="+uri +" (Attributes: " + JSON.stringify(attrs) + " )");
             onStartElementNS(elem, attrs, prefix, uri, namespaces);
         });
         cb.onEndElementNS(function(elem, prefix, uri) {
-            sys.puts("<= End: " + elem + " uri="+uri + "\n");
+            console.log("<= End: " + elem + " uri="+uri + "\n");
             onEndElementNS(elem, prefix, uri);
             parser.pause();// pause the parser
             setTimeout(function (){parser.resume();}, 100); //resume the parser
         });
         cb.onCharacters(function(chars) {
-            sys.puts('<CHARS>'+chars+"</CHARS>");
+            console.log('<CHARS>'+chars+"</CHARS>");
             onCharacters(chars);
         });
         cb.onCdata(function(cdata) {
-            sys.puts('<CDATA>'+cdata+"</CDATA>");
+            console.log('<CDATA>'+cdata+"</CDATA>");
             onCdata(cdata);
         });
         cb.onComment(function(msg) {
-            sys.puts('<COMMENT>'+msg+"</COMMENT>");
+            console.log('<COMMENT>'+msg+"</COMMENT>");
             onComment(msg);
         });
         cb.onWarning(function(msg) {
-            sys.puts('<WARNING>'+msg+"</WARNING>");
+            console.log('<WARNING>'+msg+"</WARNING>");
             onWarning(msg);
         });
         cb.onError(function(msg) {
-            sys.puts('<ERROR>'+JSON.stringify(msg)+"</ERROR>");
+            console.log('<ERROR>'+JSON.stringify(msg)+"</ERROR>");
             onError(msg);
         });
     });
