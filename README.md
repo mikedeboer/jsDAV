@@ -37,14 +37,15 @@ Supported RFC's
  * [RFC4709]: [DavMount]
  * [RFC5397]: current-user-principal
  * [RFC5689]: Extended MKCOL
+ * [RFC3744]: ACL (experimental, incomplete)
+ * [RFC4791]: CalDAV (experimental, incomplete)
+ * [CalDAV-ctag]: Calendar collection tag
 
 RFC's in development
 --------------------
 
- * [RFC3744]: ACL
- * [RFC4791]: CalDAV
  * [RFC4918]: WebDAV revision
- * CalDAV ctag, CalDAV-proxy
+ * CalDAV-proxy
 
 [SabreDAV]: http://code.google.com/p/sabredav/
 [RFC2617]: http://www.ietf.org/rfc/rfc2617.txt
@@ -56,6 +57,7 @@ RFC's in development
 [RFC4918]: http://www.ietf.org/rfc/rfc4918.txt
 [RFC5397]: http://www.ietf.org/rfc/rfc5689.txt
 [RFC5689]: http://www.ietf.org/rfc/rfc5689.txt
+[CalDAV-ctag]: http://svn.calendarserver.org/repository/calendarserver/CalendarServer/trunk/doc/Extensions/caldav-ctag.txt
 
 See the [wiki](https://github.com/mikedeboer/jsDAV/wiki) for more information!
 
