@@ -94,7 +94,8 @@ function Test_CalDAV_Backend() {
             'uri': 'calendar',
             'principaluri': 'principals/admin',
 
-            '{DAV:}displayname': 'Test Calendar'
+            '{DAV:}displayname': 'Test Calendar',
+            '{http://calendarserver.org/ns/}getctag': 1
         }
     };
 
@@ -115,12 +116,11 @@ function Test_CalDAV_Backend() {
             calendars: this.calendars,
             calendarData: this.calendarData,
             userCalendars: this.userCalendars
-        });
+        }, null, ' ');
         fs.writeFile('calendar_data.json', data, 'utf8', callback);
     }
 
     this.getCalendarsForUser = function(principalUri, callback) {
-        console.log('getCalendarsForUser', principalUri);
         var cal = [];
         for(var i=0; i<this.userCalendars[principalUri].length; ++i) {
             var id = this.userCalendars[principalUri][i];
@@ -140,13 +140,13 @@ function Test_CalDAV_Backend() {
     }
 
     this.updateCalendar = function(calendarId, mutations, callback) {
-        console.log('updateCalendar', calendarId, mutations);
         var cal = this.calendars[calendarId];
         if(cal === undefined) return callback(new Exc.jsDAV_Exception_FileNotFound("No such calendar"));
 
         for(var prop in mutations) {
             cal[prop] = mutations[prop];
         }
+        cal['{'+jsDAV_CalDAV_Plugin.NS_CALENDARSERVER+'}getctag'] += 1;
 
         this.saveCalendar(callback);
     }
@@ -167,27 +167,30 @@ function Test_CalDAV_Backend() {
     }
 
     this.createCalendarObject = function(calendarId, objectUri, calendarData, callback) {
-        console.log('createCalendarObject', calendarId, objectUri, calendarData);
         this.calendarData[calendarId][objectUri] = {
             calendarid: calendarId,
             uri: objectUri,
             calendardata: calendarData,
             lastmodified: new Date()
         };
-        this.saveCalendar(callback);
+        this.calendars[calendarId]['{'+jsDAV_CalDAV_Plugin.NS_CALENDARSERVER+'}getctag'] += 1;
+        this.saveCalendar(function() {
+            console.log('calendar saved');
+            callback();
+        });
     }
 
     this.updateCalendarObject = function(calendarId, objectUri, calendarData, callback) {
-        console.log('updateCalendarObject', calendarId, objectUri, calendarData);
         var obj = this.calendarData[calendarId][objectUri];
         obj.calendardata = calendarData;
         obj.lastmodified = new Date();
+        this.calendars[calendarId]['{'+jsDAV_CalDAV_Plugin.NS_CALENDARSERVER+'}getctag'] += 1;
         this.saveCalendar(callback);
     }
 
     this.deleteCalendarObject = function(calendarId, objectUri, callback) {
-        console.log('updateCalendarObject', calendarId, objectUri);
         delete this.calendarData[calendarId][objectUri];
+        this.calendars[calendarId]['{'+jsDAV_CalDAV_Plugin.NS_CALENDARSERVER+'}getctag'] += 1;
         this.saveCalendar(callback);
     }
 }).call(Test_CalDAV_Backend.prototype = new jsDAV_CalDAV_iBackend());
@@ -220,7 +223,7 @@ var server = jsDAV.createServer({
     standalone: true,
     realm: "CalDAV Test Realm",
     authBackend: new Test_Auth_Backend()
-});
+}, 41197, '0.0.0.0');
 
 server.plugins['davacl'] = jsDAV_DAVACL_Plugin;
 server.plugins['caldav'] = jsDAV_CalDAV_Plugin;
