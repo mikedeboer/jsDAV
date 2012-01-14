@@ -18,6 +18,9 @@
         "asyncjs": "0.0.5",
         "formidable": "1.0.8"
     },
+    "devDependencies": {
+        "jasmine-node": "1.0.17"
+    },
     "licenses": [{
         "type": "The MIT License",
         "url": "http://www.opensource.org/licenses/mit-license.php"}
