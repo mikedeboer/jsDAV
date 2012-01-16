@@ -10,12 +10,21 @@ var TestFile = require('./testserver').TestFile;
 var server = new TestServer([ ]);
 
 
+var MODIFIED_DATE = 'Thu, 12 Jan 2012 20:17:25 GMT';
+
+
 describe('jsDAV_Handler.checkPreconditions', function() {
     var server = new TestServer([
         new TestFile('etag', {
             body: "I'm a teapot!",
             etag: '"bf049defdc367d10cb23730e66198a23"'
-        })
+        }),
+        new TestFile('isnotmodified', {
+            last_modified: new Date(MODIFIED_DATE).getTime()
+        }),
+        new TestFile('ismodified', {
+            last_modified: new Date(MODIFIED_DATE).getTime() + 2*60*60*1000 // +2 hours
+        }),
     ]);
 
     it("should match If-Match and return 200", function(done) {
@@ -51,6 +60,25 @@ describe('jsDAV_Handler.checkPreconditions', function() {
             'If-None-Match': '"0123456789abcdef0123456789abcdef"'},
             function(code, headers, body) {
                 expect(code).toEqual(200);
+                done();
+        });
+    });
+
+
+    it("should return 200 for modified nodes", function(done) {
+        server.request('GET', '/ismodified', {
+            'If-Modified-Since': MODIFIED_DATE},
+            function(code, headers, body) {
+                expect(code).toEqual(200);
+                done();
+        });
+    });
+
+    it("should return 304 for unmodified nodes", function(done) {
+        server.request('GET', '/isnotmodified', {
+            'If-Modified-Since': MODIFIED_DATE},
+            function(code, headers, body) {
+                expect(code).toEqual(304);
                 done();
         });
     });
