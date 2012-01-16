@@ -29,6 +29,7 @@ util.inherits(MockRequest, events.EventEmitter);
 function MockResponse(callback) {
     this.callback = callback;
     this.data = ''
+    this.done = false;
 }
 
 MockResponse.prototype.writeHead = function(code, headers) {
@@ -37,6 +38,10 @@ MockResponse.prototype.writeHead = function(code, headers) {
 }
 
 MockResponse.prototype.end = function(data) {
+    if(this.done)
+        throw new Error("MockResponse.end() called twice; code under test sent two responses!");
+
+    this.done = true;
     // Yes yes, strings only right now...
     this.data += data;
 
