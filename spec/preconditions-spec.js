@@ -20,10 +20,12 @@ describe('jsDAV_Handler.checkPreconditions', function() {
             etag: '"bf049defdc367d10cb23730e66198a23"'
         }),
         new TestFile('isnotmodified', {
-            last_modified: new Date(MODIFIED_DATE).getTime()
+            last_modified: new Date(MODIFIED_DATE).getTime(),
+            etag: '"bf049defdc367d10cb23730e66198a23"'
         }),
         new TestFile('ismodified', {
-            last_modified: new Date(MODIFIED_DATE).getTime() + 2*60*60*1000 // +2 hours
+            last_modified: new Date(MODIFIED_DATE).getTime() + 2*60*60*1000, // +2 hours
+            etag: '"0123456789abcdef0123456789abcdef"'
         }),
     ]);
 
@@ -96,6 +98,16 @@ describe('jsDAV_Handler.checkPreconditions', function() {
     it("should return 200 for unmodified nodes with If-Unmodified-Since", function(done) {
         server.request('GET', '/isnotmodified', {
             'If-Unmodified-Since': MODIFIED_DATE},
+            function(code, headers, body) {
+                expect(code).toEqual(200);
+                done();
+        });
+    });
+
+    it("should return 200 for modified nodes with If-None-Match and If-Modified-Since", function(done) {
+        server.request('GET', '/ismodified', {
+            'If-None-Match': '"bf049defdc367d10cb23730e66198a23"',
+            'If-Modified-Since': MODIFIED_DATE},
             function(code, headers, body) {
                 expect(code).toEqual(200);
                 done();
