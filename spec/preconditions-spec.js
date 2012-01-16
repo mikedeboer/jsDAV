@@ -3,7 +3,7 @@
 "use strict";
 
 
-require('../lib/jsdav').debugMode = true;
+//require('../lib/jsdav').debugMode = true;
 var TestServer = require('./testserver').TestServer;
 var TestFile = require('./testserver').TestFile;
 
@@ -79,6 +79,25 @@ describe('jsDAV_Handler.checkPreconditions', function() {
             'If-Modified-Since': MODIFIED_DATE},
             function(code, headers, body) {
                 expect(code).toEqual(304);
+                done();
+        });
+    });
+
+
+    it("should return 412 for modified nodes with If-Unmodified-Since", function(done) {
+        server.request('GET', '/ismodified', {
+            'If-Unmodified-Since': MODIFIED_DATE},
+            function(code, headers, body) {
+                expect(code).toEqual(412);
+                done();
+        });
+    });
+
+    it("should return 200 for unmodified nodes with If-Unmodified-Since", function(done) {
+        server.request('GET', '/isnotmodified', {
+            'If-Unmodified-Since': MODIFIED_DATE},
+            function(code, headers, body) {
+                expect(code).toEqual(200);
                 done();
         });
     });
