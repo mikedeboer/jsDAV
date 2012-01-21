@@ -14,7 +14,7 @@
          "url" : "http://github.com/mikedeboer/jsDAV.git"
     },
     "dependencies": {
-        "libxmljs": "0.4.x",
+        "libxmljs": "~0.5.0",
         "asyncjs": "0.0.5",
         "formidable": "1.0.8"
     },
