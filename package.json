@@ -16,7 +16,8 @@
     "dependencies": {
         "libxmljs": "~0.5.0",
         "asyncjs": "0.0.5",
-        "formidable": "1.0.8"
+        "formidable": "1.0.8",
+        "icalendar": "~0.2.0"
     },
     "devDependencies": {
         "jasmine-node": "1.0.17"
