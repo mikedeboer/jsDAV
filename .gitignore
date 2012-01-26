@@ -8,3 +8,4 @@ search.txt
 test/output.xml
 test/assets/*.locks
 npm-debug.log
+node_modules/*

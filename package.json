@@ -16,6 +16,7 @@
     "dependencies": {
         "asyncjs": "0.0.5",
         "formidable": "1.0.8",
+        "jsftp": "0.2.1",
         "libxml": "0.0.3",
         "node-sftp": "0.1.1"
     },
