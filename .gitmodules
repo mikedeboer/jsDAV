@@ -1,6 +1,3 @@
-[submodule "node_modules/node-sftp"]
-	path = node_modules/node-sftp
-	url = http://github.com/ajaxorg/node-sftp.git
 [submodule "node_modules/jsftp"]
 	path = node_modules/jsftp
 	url = http://github.com/ajaxorg/jsftp.git

@@ -16,7 +16,8 @@
     "dependencies": {
         "asyncjs": "0.0.5",
         "formidable": "1.0.8",
-        "libxml": "0.0.3"
+        "libxml": "0.0.3",
+        "node-sftp": "0.1.1"
     },
     "licenses": [{
         "type": "The MIT License",
