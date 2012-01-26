@@ -1,29 +1,33 @@
 {
-    "name": "jsDAV",
-    "description": "jsDAV allows you to easily add WebDAV support to a NodeJS application. jsDAV is meant to cover the entire standard, and attempts to allow integration using an easy to understand API.",
-    "version": "0.1.2",
-    "homepage" : "http://github.com/mikedeboer/jsDAV",
-    "engines": {"node": ">= 0.4.0"},
-    "author": "Mike de Boer <info@mikedeboer.nl>",
-    "scripts": {
-        "test": "node test/test_server.js"
-    },
-    "main": "lib/jsdav",
-    "repository" : {
-        "type" : "git",
-         "url" : "http://github.com/mikedeboer/jsDAV.git"
-    },
-    "dependencies": {
-        "libxmljs": "~0.5.0",
-        "asyncjs": "0.0.5",
-        "formidable": "1.0.8",
-        "icalendar": "~0.2.0"
-    },
-    "devDependencies": {
-        "jasmine-node": "1.0.17"
-    },
-    "licenses": [{
-        "type": "The MIT License",
-        "url": "http://www.opensource.org/licenses/mit-license.php"}
-    ]
+  "name": "jsDAV",
+  "description": "jsDAV allows you to easily add WebDAV support to a NodeJS application. jsDAV is meant to cover the entire standard, and attempts to allow integration using an easy to understand API.",
+  "version": "0.2.0",
+  "homepage": "http://github.com/mikedeboer/jsDAV",
+  "engines": {
+    "node": ">= 0.4.0"
+  },
+  "author": "Mike de Boer <info@mikedeboer.nl>",
+  "scripts": {
+    "test": "node test/test_server.js"
+  },
+  "main": "lib/jsdav",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mikedeboer/jsDAV.git"
+  },
+  "dependencies": {
+    "libxmljs": "~0.5.0",
+    "asyncjs": "0.0.5",
+    "formidable": "1.0.8",
+    "icalendar": "~0.2.0"
+  },
+  "devDependencies": {
+    "jasmine-node": "1.0.17"
+  },
+  "licenses": [
+    {
+      "type": "The MIT License",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ]
 }
