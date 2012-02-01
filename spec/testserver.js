@@ -49,19 +49,25 @@ MockResponse.prototype.end = function(data) {
 }
 
 
-function TestServer(nodes) {
+function TestServer(nodes, options) {
     this.root = new jsDAV_SimpleDirectory('root', nodes);
 
-    this.server = new Server({
-        node: this.root,
-        standalone: false,
-        server: true,
-        mount: '/'
-    });
+    options = options || {};
+    options.node = this.root;
+    options.server = options.server || true;
+    options.mount = options.mount || '/';
+    options.standalone = false;
+
+    this.server = new Server(options);
 }
 
 TestServer.prototype.request = function(method, url, headers, data, callback) {
-    if(data instanceof Function) {
+    if(headers instanceof Function) {
+        callback = headers;
+        headers = {};
+        data = undefined;
+    }
+    else if(data instanceof Function) {
         callback = data;
         data = undefined;
     }
