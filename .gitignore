@@ -8,4 +8,6 @@ search.txt
 test/output.xml
 examples/calendar_data.json
 *.swp
-node_modules
+test/assets/*.locks
+npm-debug.log
+node_modules/*

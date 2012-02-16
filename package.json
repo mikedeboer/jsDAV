@@ -16,10 +16,13 @@
     "url": "git://github.com/mikedeboer/jsDAV.git"
   },
   "dependencies": {
-    "libxmljs": "~0.5.0",
+    "asyncjs": "0.0.5",
     "asyncjs": "0.0.5",
     "formidable": "1.0.8",
-    "icalendar": "~0.4.1"
+    "icalendar": "~0.4.1",
+    "jsftp": "0.2.1",
+    "libxmljs": "~0.5.0",
+    "node-sftp": "0.1.1"
   },
   "devDependencies": {
     "jasmine-node": "1.0.17"
