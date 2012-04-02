@@ -6,6 +6,8 @@ child.log
 debug.log
 search.txt
 test/output.xml
+examples/calendar_data.json
+*.swp
 test/assets/*.locks
 npm-debug.log
 node_modules/*
