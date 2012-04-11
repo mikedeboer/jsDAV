@@ -2,7 +2,7 @@
  * @package jsDAV
  * @subpackage DAV
  * @copyright Copyright(c) 2011 Ajax.org B.V. <info AT ajax.org>
- * @author Mike de Boer <info AT mikedeboer DOT nl>
+ * @author Ruben Daniels <ruben AT c9 DOT io>
  * @license http://github.com/mikedeboer/jsDAV/blob/master/LICENSE MIT License
  */
 "use strict";
@@ -31,6 +31,16 @@ module.exports = {
     "test retrieving a file list": function(next) {
         this.plugin.doFilelist({path: "./"}, {}, function(err, out){
             assert.ok(out.indexOf("test_filelist.js") > -1);
+            
+            next();
+        });
+    },
+    
+    "test retrieving a file list including hidden files": function(next) {
+        this.plugin.doFilelist({path: "../"}, {
+            showHiddenFiles: "1"
+        }, function(err, out){
+            assert.ok(out.indexOf(".gitignore") > -1);
             
             next();
         });
