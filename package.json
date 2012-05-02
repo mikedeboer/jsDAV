@@ -11,7 +11,7 @@
     "main": "lib/jsdav",
     "repository" : {
         "type" : "git",
-         "url" : "http://github.com/mikedeboer/jsDAV.git"
+         "url" : "http://github.com/ajaxorg/jsDAV.git"
     },
     "dependencies": {
         "asyncjs": "0.0.5",
