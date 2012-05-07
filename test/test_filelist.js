@@ -1,42 +1,55 @@
+/*
+ * @package jsDAV
+ * @subpackage DAV
+ * @copyright Copyright(c) 2011 Ajax.org B.V. <info AT ajax.org>
+ * @author Ruben Daniels <ruben AT c9 DOT io>
+ * @license http://github.com/mikedeboer/jsDAV/blob/master/LICENSE MIT License
+ */
 "use strict";
 
-var Http = require("http");
-var Async = require("./../node_modules/asyncjs");
+var assert = require("assert");
+var jsDAV  = require("./../lib/jsdav");
+var jsDAV_Filelist_Plugin = require("./../lib/DAV/plugins/filelist");
 
-var options = {
-    host: "localhost",
-    port: 8000,
-    method: "REPORT",
-    path: "/"
+jsDAV.debugMode = true;
+
+module.exports = {
+    timeout: 30000,
+
+    setUpSuite: function(next) {
+        this.plugin = new jsDAV_Filelist_Plugin({
+            addEventListener : function(){}
+        });
+        next();
+    },
+
+    tearDownSuite: function(next) {
+        
+        next();
+    },
+
+    "test retrieving a file list": function(next) {
+        this.plugin.doFilelist({path: "./"}, {}, function(err, out){
+            assert.ok(out.indexOf("test_filelist.js") > -1);
+            
+            next();
+        });
+    },
+    
+    "test retrieving a file list including hidden files": function(next) {
+        this.plugin.doFilelist({path: "../"}, {
+            showHiddenFiles: "1"
+        }, function(err, out){
+            assert.ok(out.indexOf(".gitignore") > -1);
+            
+            next();
+        });
+    }
 };
 
-Async.range(1, 1000)
-    .each(function(num) {
-        var req = Http.request(options, function(res) {
-            if (res.statusCode != 207)
-                return next("Invalid status code! " + res.statusCode);
+process.on("exit", function() {
+    if (module.exports.conn)
+        module.exports.conn.end();
+});
 
-            console.log("[" + num + "] status: " + res.statusCode);
-            //console.log("[" + num + "] headers: " + JSON.stringify(res.headers));
-            res.setEncoding("utf8");
-            res.on("data", function(chunk) {
-                console.log("[" + num + "] body: " + chunk);
-            });
-            
-            res.on("end", function() {
-                //next();
-            });
-        });
-        
-        req.on("error", function(e) {
-            console.log("problem with request: " + e.message);
-        });
-        
-        // write data to request body
-        req.write('<?xml version="1.0" encoding="utf-8" ?>\n');
-        req.write('<D:filelist xmlns:D="DAV:"></D:filelist>');
-        req.end();
-    })
-    .end(function(err) {
-        console.log("DONE");
-    });
+!module.parent && require("./../node_modules/asyncjs/lib/test").testcase(module.exports).exec();
