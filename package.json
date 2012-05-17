@@ -13,9 +13,6 @@
         "type" : "git",
          "url" : "http://github.com/ajaxorg/jsDAV.git"
     },
-    "devDependencies": {
-        "libxml": "0.0.3"
-    },
     "dependencies": {
         "asyncjs": "0.0.5",
         "formidable": "1.0.8",
