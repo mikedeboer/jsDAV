@@ -11,7 +11,7 @@
     "main": "lib/jsdav",
     "repository" : {
         "type" : "git",
-         "url" : "http://github.com/mikedeboer/jsDAV.git"
+         "url" : "http://github.com/ajaxorg/jsDAV.git"
     },
     "devDependencies": {
         "libxml": "0.0.3"
@@ -19,9 +19,10 @@
     "dependencies": {
         "asyncjs": "0.0.5",
         "formidable": "1.0.8",
-        "jsftp": "0.2.1",
-        "node-sftp": "0.1.1",
-        "xmldom": "0.1.2"
+        "jsftp": "0.3.3",
+         "node-sftp": "0.1.1",
+        "xmldom": "0.1.2",
+        "gnu-tools": "~0.0.1"
     },
     "licenses": [{
         "type": "The MIT License",
