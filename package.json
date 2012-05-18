@@ -18,8 +18,13 @@
         "formidable": "1.0.8",
         "jsftp": "0.3.3",
          "node-sftp": "0.1.1",
-        "xmldom": "0.1.2",
-        "gnu-tools": "~0.0.1"
+        "xmldom": "0.1.2"
+    },
+    "mappings": {
+        "gnu-tools": [
+            "npm",
+            "https://github.com/c9/node-gnu-tools/tarball/b3237354cdf66d3e76a23ef9416773775df3bd9b"
+        ]
     },
     "licenses": [{
         "type": "The MIT License",
