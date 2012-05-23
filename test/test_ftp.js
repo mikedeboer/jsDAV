@@ -13,7 +13,7 @@ var _      = {
                 obj[prop] = source[prop];
         });
         return obj;
-    };
+    }
 };
 
 var _c = {
