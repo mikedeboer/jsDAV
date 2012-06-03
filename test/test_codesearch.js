@@ -8,8 +8,8 @@
 "use strict";
 
 var assert = require("assert");
-var jsDAV  = require("../../../lib/jsdav");
-var jsDAV_Codesearch_Plugin = require("./codesearch");
+var jsDAV  = require("./../lib/jsdav");
+var jsDAV_Codesearch_Plugin = require("./../lib/DAV/plugins/codesearch");
 
 module.exports = {
     timeout: 30000,
@@ -25,14 +25,14 @@ module.exports = {
         next();
     },
 
-    "test retrieving a file list": function(next) {
+    "test retrieving a string": function(next) {
         var all = '';
         this.plugin.doCodesearch({path: __dirname}, {query: "tearDown", pattern: "*.*",  uri: "http://bla/"}, function(out){
             all += out;
         }, function(err, out) {
             all += out;
-            var matches = all.match(/<\/d:excerpt>/g);
-            assert.equal(matches.length, 2, "count results");
+            assert.ok(all.indexOf("tearDown") > -1);
+            
             next();
         });
     }
