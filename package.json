@@ -9,17 +9,18 @@
         "test": "node test/test_server.js"
     },
     "main": "lib/jsdav",
+    "pm": "sm",
     "repository" : {
         "type" : "git",
          "url" : "http://github.com/ajaxorg/jsDAV.git"
     },
     "dependencies": {
-        "asyncjs": "0.0.7",
+        "asyncjs": "0.0.8",
         "formidable": "1.0.9",
-        "jsftp": "0.3.3",
-        "libxml": "0.0.3",
+        "jsftp": "0.3.4",
         "node-sftp": "0.1.1",
-        "gnu-tools": "~0.0.1"
+        "xmldom": "0.1.2",
+        "gnu-tools": "0.0.x"
     },
     "licenses": [{
         "type": "The MIT License",

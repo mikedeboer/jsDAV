@@ -30,20 +30,21 @@ module.exports = {
 
     "test retrieving a file list": function(next) {
         this.plugin.doFilelist({path: "./"}, {}, function(err, out){
-            assert.ok(out.indexOf("test_filelist.js") > -1);
+            assert.ok(out.toString().indexOf("test_filelist.js") > -1);
             
             next();
-        });
+        }, function(err, code) { });
     },
     
     "test retrieving a file list including hidden files": function(next) {
         this.plugin.doFilelist({path: "../"}, {
-            showHiddenFiles: "1"
+            showHiddenFiles: "1",
+            maxdepth: 1
         }, function(err, out){
-            assert.ok(out.indexOf(".gitignore") > -1);
+        	assert.ok(out.toString().indexOf("./.gitignore") > -1);
             
             next();
-        });
+        }, function(err, code) { });
     }
 };
 
