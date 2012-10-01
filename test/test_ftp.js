@@ -1,21 +1,9 @@
 "use strict";
 
 var assert = require("assert");
-var Fs     = require("fs");
 var exec   = require('child_process').spawn;
 var jsDAV  = require("./../lib/jsdav");
 var FtpTree  = require("./../lib/DAV/tree/ftp").jsDAV_Tree_Ftp;
-var Http   = require("http");
-var _      = {
-    extend: function(obj) {
-        Array.prototype.slice.call(arguments, 1).forEach(function(source) {
-          for (var prop in source)
-            if (source[prop] !== void 0)
-                obj[prop] = source[prop];
-        });
-        return obj;
-    }
-};
 
 var daemon;
 var FTPCredentials = {
