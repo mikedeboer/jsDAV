@@ -4,6 +4,7 @@ var assert = require("assert");
 var Fs     = require("fs");
 var exec   = require('child_process').spawn;
 var jsDAV  = require("./../lib/jsdav");
+var FtpTree  = require("./../lib/DAV/tree/ftp").jsDAV_Tree_Ftp;
 var Http   = require("http");
 var _      = {
     extend: function(obj) {
@@ -16,73 +17,57 @@ var _      = {
     }
 };
 
-var _c = {
-    host: "www.linhnguyen.nl",
-    username: "cloud9",
-    pass: "cloud9",
-    port: 21
+var daemon;
+var FTPCredentials = {
+    host: "localhost",
+    user: "user",
+    port: 3334,
+    pass: "12345"
 };
 
 jsDAV.debugMode = true;
 
 module.exports = {
-    timeout: 30000,
+    timeout: 5000,
 
     setUpSuite: function(next) {
-        //exec('/bin/launchctl', ['load', '-w', '/System/Library/LaunchDaemons/ftp.plist']);
-
-        var server = this.server = jsDAV.createServer({
-            type: "ftp",
-            node: "/c9",
-            ftp: {
-                host: _c.host,
-                user: _c.username,
-                pass: _c.pass,
-                port: _c.port
+        if (FTPCredentials.host === "localhost") {
+            try {
+                daemon = exec('python', ['test/basic_ftpd.py']);
             }
-        }, 8000);
+            catch(e) {
+                console.log(
+                    "There was a problem trying to start the FTP service." +
+                    " . This could be because you don't have enough permissions" +
+                    "to run the FTP service on the given port.\n\n" + e
+                );
+            }
+        }
 
-        this.ftp = server.tree.ftp;
-        next();
+        var self = this;
+        var server;
+        setTimeout(function() {
+            server = self.server = jsDAV.createServer({
+                type: "ftp",
+                node: "/c9",
+                ftp: FTPCredentials
+            }, 8000);
+
+            self.ftp = server.tree.ftp;
+            next();
+        }, 200);
     },
 
     tearDownSuite: function(next) {
-        //exec('/bin/launchctl', ['unload', '-w', '/System/Library/LaunchDaemons/ftp.plist']);
+        if (daemon)
+            daemon.kill();
 
         this.server.tree.unmount();
         this.server = null;
         next();
     },
 
-    "test Ftp connect": function(next) {
-        var self = this;
-        function assertError(e) {
-            if (e) throw e;
-            else throw new Error("FTP timed out.")
-        };
-
-        this.ftp.on("connect", function() {
-            next();
-        });
-        this.ftp.on("error", assertError)
-        this.ftp.on("timeout", assertError)
-
-        this.ftp.connect(_c.port, _c.host);
-    },
-
-   "test User logs in, lists root directory, logs out": function(next) {
-        var _self = this;
-        this.ftp.auth(_c.username, _c.pass, function(err) {
-            assert.ok(!err);
-            _self.ftp.readdir("/", function(err, nodes) {
-                assert.ok(!err);
-                assert.ok(Array.isArray(nodes));
-                next();
-            });
-        });
-    },
     /**
-     * 3rd Scenario
      * User logs in and lists (first PROPFIND of basePath)
      * creates a folder in root
      * creates a file in it
@@ -90,12 +75,13 @@ module.exports = {
      * moves first folder in second
      * logs out
      */
-    ">test Stateless requests on jsDav Ftp": function(next) {
+    "!test Stateless requests on jsDav Ftp": function(next) {
         var _self = this;
         var options = _.extend(this.getHttpReqOptions(), {
             path: "/",
             method: "PROPFIND"
         });
+
         var request = Http.request(options);
         request.write('<?xml version="1.0" encoding="utf-8" ?><D:propfind xmlns:D="DAV:"><D:allprop /></D:propfind>');
         request.on("response", function(res) {
@@ -108,8 +94,9 @@ module.exports = {
         request.end();
 
         function afterPropfind() {
-            var successes = 0,
-                _self = this;
+            console.log("ASD")
+            var successes = 0;
+            var _self = this;
             // Request #1: creates a folder in root
             setTimeout(function() {
                 options = _.extend(_self.getHttpReqOptions(["content-length"]), {
@@ -178,6 +165,36 @@ module.exports = {
         }
     },
 
+    "test getRealPath 1": function(next) {
+        var tree = new FtpTree({
+            ftp: {
+                path: "/blah\\"
+            }
+        });
+        assert.equal(tree.getRealPath("sergi"), "/blah\\/sergi");
+        next();
+    },
+
+    "test getRealPath 2": function(next) {
+        var tree = new FtpTree({
+            ftp: {
+                path: "home"
+            }
+        });
+        assert.equal(tree.getRealPath("sergi"), "/home/sergi");
+        next();
+    },
+
+    "test getRealPath 3": function(next) {
+        var tree = new FtpTree({
+            ftp: {
+                path: "/home"
+            }
+        });
+        assert.equal(tree.getRealPath("/home"), "/home");
+        next();
+    },
+
     getHttpReqOptions: function(exclude_headers, exclude) {
         var options = {
             host: "127.0.0.1",
@@ -219,4 +236,5 @@ process.on("exit", function() {
         module.exports.conn.end();
 });
 
-!module.parent && require("./../node_modules /asyncjs/lib/test").testcase(module.exports, "FTP"/*, timeout*/).exec();
+!module.parent && require("./../node_modules/asyncjs/lib/test").testcase(module.exports, "FTP"/*, timeout*/).exec();
+
