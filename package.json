@@ -9,7 +9,6 @@
         "test": "node test/test_server.js"
     },
     "main": "lib/jsdav",
-    "pm": "sm",
     "repository" : {
         "type" : "git",
          "url" : "http://github.com/ajaxorg/jsDAV.git"
