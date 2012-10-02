@@ -18,43 +18,6 @@ jsDAV.debugMode = true;
 module.exports = {
     timeout: 5000,
 
-    setUpSuite: function(next) {
-        if (FTPCredentials.host === "localhost") {
-            try {
-                daemon = exec('python', ['test/basic_ftpd.py']);
-            }
-            catch(e) {
-                console.log(
-                    "There was a problem trying to start the FTP service." +
-                    " . This could be because you don't have enough permissions" +
-                    "to run the FTP service on the given port.\n\n" + e
-                );
-            }
-        }
-
-        var self = this;
-        var server;
-        setTimeout(function() {
-            server = self.server = jsDAV.createServer({
-                type: "ftp",
-                node: "/c9",
-                ftp: FTPCredentials
-            }, 8000);
-
-            self.ftp = server.tree.ftp;
-            next();
-        }, 200);
-    },
-
-    tearDownSuite: function(next) {
-        if (daemon)
-            daemon.kill();
-
-        this.server.tree.unmount();
-        this.server = null;
-        next();
-    },
-
     "test getRealPath 1": function(next) {
         var tree = new FtpTree({
             ftp: {
@@ -85,11 +48,6 @@ module.exports = {
         next();
     }
 };
-
-process.on("exit", function() {
-    if (module.exports.conn)
-        module.exports.conn.end();
-});
 
 !module.parent && require("./../node_modules/asyncjs/lib/test").testcase(module.exports, "FTP"/*, timeout*/).exec();
 
