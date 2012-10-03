@@ -1,7 +1,7 @@
 {
     "name": "jsDAV",
     "description": "jsDAV allows you to easily add WebDAV support to a NodeJS application. jsDAV is meant to cover the entire standard, and attempts to allow integration using an easy to understand API.",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "homepage" : "http://github.com/mikedeboer/jsDAV",
     "engines": {"node": ">= 0.4.0"},
     "author": "Mike de Boer <info@mikedeboer.nl>",
@@ -9,7 +9,6 @@
         "test": "node test/test_server.js"
     },
     "main": "lib/jsdav",
-    "pm": "sm",
     "repository" : {
         "type" : "git",
          "url" : "http://github.com/ajaxorg/jsDAV.git"
@@ -17,7 +16,7 @@
     "dependencies": {
         "asyncjs": "0.0.8",
         "formidable": "1.0.9",
-        "jsftp": "0.3.4",
+        "jsftp": "0.4.2",
         "node-sftp": "0.1.1",
         "xmldom": "0.1.2",
         "gnu-tools": "0.0.x"
