@@ -8,5 +8,6 @@ debug.log
 search.txt
 test/output.xml
 test/assets/*.locks
+test/credentials.js
 npm-debug.log
 node_modules/*

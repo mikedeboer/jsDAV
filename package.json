@@ -15,11 +15,14 @@
     },
     "dependencies": {
         "asyncjs": "0.0.8",
-        "formidable": "1.0.9",
+        "formidable": "1.0.11",
         "jsftp": "~0.5.4",
         "node-sftp": "0.1.1",
-        "xmldom": "0.1.2",
+        "xmldom": "0.1.13",
         "gnu-tools": "0.0.x"
+    },
+    "optionalDependencies": {
+        "dbox": "0.5.6"
     },
     "licenses": [{
         "type": "The MIT License",
