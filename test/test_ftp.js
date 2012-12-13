@@ -3,7 +3,7 @@
 var assert = require("assert");
 var exec   = require('child_process').spawn;
 var jsDAV  = require("./../lib/jsdav");
-var FtpTree  = require("./../lib/DAV/tree/ftp").jsDAV_Tree_Ftp;
+var FtpTree  = require("./../lib/DAV/backends/ftp/tree").jsDAV_Tree_Ftp;
 
 var daemon;
 var FTPCredentials = {
