@@ -19,7 +19,7 @@
         "jsftp": "~0.5.4",
         "node-sftp": "0.1.1",
         "xmldom": "0.1.2",
-        "gnu-tools": "0.0.x"
+        "gnu-tools": "https://github.com/c9/node-gnu-tools/tarball/568f40a73a4d2902b730c63a6cc04bee4be14e51"
     },
     "licenses": [{
         "type": "The MIT License",
