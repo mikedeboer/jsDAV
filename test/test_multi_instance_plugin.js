@@ -12,11 +12,8 @@ var jsDAV_ServerPlugin = require("jsdav/lib/DAV/plugin").jsDAV_ServerPlugin;
 var util = require("util");
 var events = require("events");
 var http = require("http");
-var fs = require("fs");
 
 jsDAV.debugMode = true;
-
-
 
 // Invoked at bottom of file.
 function main() {
@@ -25,7 +22,7 @@ function main() {
         mode: "slave",
         port: 8001
     });
-    
+
     createInstance({
         mode: "master",
         port: 8002
@@ -88,13 +85,13 @@ function createInstance(options) {
 
 var Filewatch = function(options) {
     var self = this;
-    
+
     var plugin = function(handler) {
 
         jsDAV_ServerPlugin.call(this, handler);
 
         handler.addEventListener("afterWriteContent", function(e, uri) {
-console.log("afterWriteContent event for " + options.mode);            
+console.log("afterWriteContent event for " + options.mode);
             self.emit("afterWrite", {
                 file: "/" + uri
             });
@@ -104,7 +101,7 @@ console.log("afterWriteContent event for " + options.mode);
     util.inherits(plugin, jsDAV_ServerPlugin);
 
     self.getPlugin = function() {
-console.log("PLUGIN INSTANCE FOR " + options.mode);            
+console.log("PLUGIN INSTANCE FOR " + options.mode);
         return plugin;
     }
 };

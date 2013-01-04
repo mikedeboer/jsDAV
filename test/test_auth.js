@@ -15,7 +15,7 @@ jsDAV.debugMode = true;
 
 jsDAV.createServer({
     node: __dirname + "/assets",
-    locksBackend: new jsDAV_Locks_Backend_FS(__dirname + "/assets"),
-    authBackend: new jsDAV_Auth_Backend_File(__dirname + "/assets/htdigest"),
+    locksBackend: jsDAV_Locks_Backend_FS.new(__dirname + "/assets"),
+    authBackend: jsDAV_Auth_Backend_File.new(__dirname + "/assets/htdigest"),
     realm: "jsdavtest"
 }, 8000);

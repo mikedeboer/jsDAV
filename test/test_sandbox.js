@@ -10,7 +10,7 @@
 var Http  = require("http");
 var Assert = require("assert");
 var jsDAV = require("./../lib/jsdav");
-var Util = require("./../lib/DAV/util");
+var Util = require("./../lib/shared/util");
 
 jsDAV.debugMode = true;
 

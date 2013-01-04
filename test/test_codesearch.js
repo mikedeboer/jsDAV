@@ -15,7 +15,7 @@ module.exports = {
     timeout: 30000,
 
     setUpSuite: function(next) {
-        this.plugin = new jsDAV_Codesearch_Plugin({
+        this.plugin = jsDAV_Codesearch_Plugin.new({
             addEventListener: function() {}
         });
         next();
@@ -32,7 +32,7 @@ module.exports = {
         }, function(err, out) {
             all += out;
             assert.ok(all.indexOf("tearDown") > -1);
-            
+
             next();
         });
     }

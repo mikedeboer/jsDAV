@@ -7,7 +7,7 @@
  */
 "use strict";
 
-var Util   = require("./../lib/DAV/util"),
+var Util   = require("./../lib/shared/util"),
     Assert = require("assert"),
     K      = function() {},
 
@@ -63,7 +63,7 @@ function setUp() {
 }
 
 function result(sName, bTest) {
-    
+
 }
 
 var Tests = {
@@ -76,7 +76,7 @@ var Tests = {
             ));
             onStartElementNS = K;
         }
-        
+
         parser.parseString('<?xml version="1.0"?><test1 xmlns="http://www.example.org/">Testdoc</test1>');
     },
 
@@ -106,7 +106,7 @@ var Tests = {
     },
 
     /*"testToClarkNotationNoElem": function() {
-        
+
         parser.parseString('<?xml version="1.0"?><s:test1 xmlns:s="urn:DAV">Testdoc</s:test1>');
 
         return Assert.equal(
