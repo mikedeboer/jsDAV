@@ -17,32 +17,32 @@ module.exports = {
     timeout: 30000,
 
     setUpSuite: function(next) {
-        this.plugin = new jsDAV_Filelist_Plugin({
+        this.plugin = jsDAV_Filelist_Plugin.new({
             addEventListener : function(){}
         });
         next();
     },
 
     tearDownSuite: function(next) {
-        
+
         next();
     },
 
     "test retrieving a file list": function(next) {
         this.plugin.doFilelist({path: "./"}, {}, function(err, out){
             assert.ok(out.toString().indexOf("test_filelist.js") > -1);
-            
+
             next();
         }, function(err, code) { });
     },
-    
+
     "test retrieving a file list including hidden files": function(next) {
         this.plugin.doFilelist({path: "../"}, {
             showHiddenFiles: "1",
             maxdepth: 1
         }, function(err, out){
         	assert.ok(out.toString().indexOf("./.gitignore") > -1);
-            
+
             next();
         }, function(err, code) { });
     }
