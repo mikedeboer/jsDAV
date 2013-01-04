@@ -3,7 +3,7 @@
 var assert = require("assert");
 var exec   = require('child_process').spawn;
 var jsDAV  = require("./../lib/jsdav");
-var FtpTree  = require("./../lib/DAV/tree/ftp").jsDAV_Tree_Ftp;
+var FtpTree  = require("./../lib/DAV/backends/ftp/tree").jsDAV_Tree_Ftp;
 
 var daemon;
 var FTPCredentials = {
@@ -19,7 +19,7 @@ module.exports = {
     timeout: 5000,
 
     "test getRealPath 1": function(next) {
-        var tree = new FtpTree({
+        var tree = FtpTree.new({
             ftp: {
                 path: "/blah\\"
             }
@@ -29,7 +29,7 @@ module.exports = {
     },
 
     "test getRealPath 2": function(next) {
-        var tree = new FtpTree({
+        var tree = FtpTree.new({
             ftp: {
                 path: "home"
             }
@@ -39,7 +39,7 @@ module.exports = {
     },
 
     "test getRealPath 3": function(next) {
-        var tree = new FtpTree({
+        var tree = FtpTree.new({
             ftp: {
                 path: "/home"
             }
