@@ -19,6 +19,7 @@
         "jsftp": "~0.5.4",
         "node-sftp": "0.1.1",
         "xmldom": "0.1.13",
+        "xpath": "0.0.5",
         "gnu-tools": "0.0.x"
     },
     "optionalDependencies": {
