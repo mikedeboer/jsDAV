@@ -35,7 +35,7 @@ var Db = require("./../lib/shared/db");
 // This can be for example the root / or a complete path to your server script
 var baseUri = "/";
 
-/* Database */
+// Database
 var redis = Db.redisConnection();
 // set it up for demo use:
 redis.multi([
@@ -48,7 +48,9 @@ redis.multi([
     ["HMSET", "principals/principals/admin/calendar-proxy-read", "email", "", "displayname", ""],
     ["HMSET", "principals/principals/admin/calendar-proxy-write", "email", "", "displayname", ""],
     // create the first addressbook
-    ["HMSET", "addressbooks/principals/admin", "displayname", "default calendar", "uri", "default", "description", "", "ctag", "1"]
+    ["SET", "addressbooks/ID", "1"],
+    ["HMSET", "addressbooks/1", "principaluri", "principals/admin", "displayname", "default calendar", "uri", "default", "description", "", "ctag", "1"],
+    ["HMSET", "addressbooks/principalUri", "principals/admin", "[1]"]
 ]).exec(function(err) {
     if (err)
         throw(err);
