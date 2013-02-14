@@ -40,7 +40,7 @@ var redis = Db.redisConnection();
 // set it up for demo use:
 redis.multi([
     ["FLUSHDB"],
-    // create user admin. NOTE: if you change the real to something other than 'jsDAV', 
+    // create user admin. NOTE: if you change the realm to something other than 'jsDAV', 
     // you need to change the hash below here to: md5("<username>:<realm>:<password>").
     ["SET", "users/admin", "6838d8a7454372f68a6abffbdb58911c"],
     // create the initial ACL rules for user 'admin'
@@ -59,12 +59,10 @@ redis.multi([
     var authBackend      = jsDAV_Auth_Backend_Redis.new(redis);
     var principalBackend = jsDAVACL_PrincipalBackend_Redis.new(redis);
     var carddavBackend   = jsCardDAV_Backend_Redis.new(redis);
-    //var caldavBackend    = jsCalDAV_Backend_Redis(redis);
     
     // Setting up the directory tree //
     var nodes = [
         jsDAVACL_PrincipalCollection.new(principalBackend),
-        //jsCalDAV_CalendarRootNode.new(authBackend, caldavBackend),
         jsCardDAV_AddressBookRoot.new(principalBackend, carddavBackend),
     ];
     
