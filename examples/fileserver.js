@@ -8,6 +8,7 @@
 "use strict";
 
 var jsDAV = require("./../lib/jsdav");
+jsDAV.debugMode = true;
 var jsDAV_Locks_Backend_FS = require("./../lib/DAV/plugins/locks/fs");
 
 jsDAV.createServer({
