@@ -31,36 +31,35 @@ var jsDAVACL_Plugin = require("./../lib/DAVACL/plugin");
 
 var Db = require("./../lib/shared/db");
 
+// Database driver to use. 'redis' is the default, but feel free to use anything 
+// else supported by jsDAV
+var DB_DRIVER = "redis";
+var DB_INIT = require("./data/addressbook/" + DB_DRIVER);
+// Arguments to be passed to the function that establishes a connection with the db
+var DB_ARGS = [];
+
+// Database
+var connFunc = DB_DRIVER + "Connection";
+// A function like 'Db.redisConnection()' must be 
+if (!Db[connFunc])
+    throw "Uck! This database driver (" + DB_DRIVER + ") does not seem to be supported!";
+var db = Db[connFunc].apply(Db, DB_ARGS);
+
 // Make sure this setting is turned on and reflect the root url for your WebDAV server.
 // This can be for example the root / or a complete path to your server script
 var baseUri = "/";
 
-// Database
-var redis = Db.redisConnection();
 // set it up for demo use:
-redis.multi([
-    ["FLUSHDB"],
-    // create user admin. NOTE: if you change the realm to something other than 'jsDAV', 
-    // you need to change the hash below here to: md5("<username>:<realm>:<password>").
-    ["SET", "users/admin", "6838d8a7454372f68a6abffbdb58911c"],
-    // create the initial ACL rules for user 'admin'
-    ["HMSET", "principals/principals/admin", "email", "admin@example.org", "displayname", "Administrator"],
-    ["HMSET", "principals/principals/admin/calendar-proxy-read", "email", "", "displayname", ""],
-    ["HMSET", "principals/principals/admin/calendar-proxy-write", "email", "", "displayname", ""],
-    // create the first addressbook
-    ["SET", "addressbooks/ID", "1"],
-    ["HMSET", "addressbooks/1", "principaluri", "principals/admin", "displayname", "default addressbook", "uri", "default", "description", "", "ctag", "1"],
-    ["HMSET", "addressbooks/principalUri", "principals/admin", "[1]"]
-]).exec(function(err) {
+DB_INIT.init(db, function(err) {
     if (err)
         throw(err);
     
     // Backends
-    var authBackend = jsDAV_Auth_Backend_Redis.new(redis);
-    var principalBackend = jsDAVACL_PrincipalBackend_Redis.new(redis);
-    var carddavBackend = jsCardDAV_Backend_Redis.new(redis);
+    var authBackend = jsDAV_Auth_Backend_Redis.new(db);
+    var principalBackend = jsDAVACL_PrincipalBackend_Redis.new(db);
+    var carddavBackend = jsCardDAV_Backend_Redis.new(db);
     
-    // Setting up the directory tree //
+    // Setting up the directory tree
     var nodes = [
         jsDAVACL_PrincipalCollection.new(principalBackend),
         jsCardDAV_AddressBookRoot.new(principalBackend, carddavBackend)
