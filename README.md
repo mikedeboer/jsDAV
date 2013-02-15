@@ -27,7 +27,6 @@ Features in development
 
  * Pass all Litmus tests
  * CalDAV (to be tested with Evolution, iCal, iPhone and Lightning).
- * CardDAV (to be tested with OSX addressbook, the iOS addressbook and Evolution)
 
 Supported RFC's
 ---------------
@@ -37,11 +36,12 @@ Supported RFC's
  * [RFC4709]: [DavMount]
  * [RFC5397]: current-user-principal
  * [RFC5689]: Extended MKCOL
+ * [RFC3744]: ACL
+ * CardDAV (to be tested with the iOS addressbook and Evolution)
 
 RFC's in development
 --------------------
 
- * [RFC3744]: ACL
  * [RFC4791]: CalDAV
  * [RFC4918]: WebDAV revision
  * CalDAV ctag, CalDAV-proxy
