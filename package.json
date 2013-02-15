@@ -11,7 +11,7 @@
     "main": "lib/jsdav",
     "repository" : {
         "type" : "git",
-         "url" : "http://github.com/ajaxorg/jsDAV.git"
+        "url" : "http://github.com/mikedeboer/jsDAV.git"
     },
     "dependencies": {
         "asyncjs": "~0.0.8",
@@ -28,6 +28,6 @@
     },
     "licenses": [{
         "type": "The MIT License",
-        "url": "http://www.opensource.org/licenses/mit-license.php"}
-    ]
+        "url": "http://www.opensource.org/licenses/mit-license.php"
+    }]
 }

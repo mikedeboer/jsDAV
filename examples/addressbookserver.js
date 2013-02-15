@@ -49,21 +49,21 @@ redis.multi([
     ["HMSET", "principals/principals/admin/calendar-proxy-write", "email", "", "displayname", ""],
     // create the first addressbook
     ["SET", "addressbooks/ID", "1"],
-    ["HMSET", "addressbooks/1", "principaluri", "principals/admin", "displayname", "default calendar", "uri", "default", "description", "", "ctag", "1"],
+    ["HMSET", "addressbooks/1", "principaluri", "principals/admin", "displayname", "default addressbook", "uri", "default", "description", "", "ctag", "1"],
     ["HMSET", "addressbooks/principalUri", "principals/admin", "[1]"]
 ]).exec(function(err) {
     if (err)
         throw(err);
     
     // Backends
-    var authBackend      = jsDAV_Auth_Backend_Redis.new(redis);
+    var authBackend = jsDAV_Auth_Backend_Redis.new(redis);
     var principalBackend = jsDAVACL_PrincipalBackend_Redis.new(redis);
-    var carddavBackend   = jsCardDAV_Backend_Redis.new(redis);
+    var carddavBackend = jsCardDAV_Backend_Redis.new(redis);
     
     // Setting up the directory tree //
     var nodes = [
         jsDAVACL_PrincipalCollection.new(principalBackend),
-        jsCardDAV_AddressBookRoot.new(principalBackend, carddavBackend),
+        jsCardDAV_AddressBookRoot.new(principalBackend, carddavBackend)
     ];
     
     jsDAV.createServer({
