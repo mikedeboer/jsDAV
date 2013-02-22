@@ -33,18 +33,14 @@ var jsDAV_Browser_Plugin = require("./../lib/DAV/plugins/browser");
 var jsCardDAV_Plugin = require("./../lib/CardDAV/plugin");
 var jsDAVACL_Plugin = require("./../lib/DAVACL/plugin");
 
-var Db = require("./../lib/shared/db");
+var Db = require("./../lib/shared/backends/" + DB_DRIVER);
 
 var DB_INIT = require("./data/addressbook/" + DB_DRIVER);
 // Arguments to be passed to the function that establishes a connection with the db
 var DB_ARGS = [];
 
-// Database
-var connFunc = DB_DRIVER + "Connection";
-// A function like 'Db.redisConnection()' must be 
-if (!Db[connFunc])
-    throw "Uck! This database driver (" + DB_DRIVER + ") does not seem to be supported!";
-var db = Db[connFunc].apply(Db, DB_ARGS);
+// Database connection
+var db = Db.getConnection.apply(Db, DB_ARGS);
 
 // Make sure this setting is turned on and reflect the root url for your WebDAV server.
 // This can be for example the root / or a complete path to your server script
