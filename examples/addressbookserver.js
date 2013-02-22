@@ -35,22 +35,22 @@ var jsDAVACL_Plugin = require("./../lib/DAVACL/plugin");
 
 var Db = require("./../lib/shared/backends/" + DB_DRIVER);
 
-var DB_INIT = require("./data/addressbook/" + DB_DRIVER);
 // Arguments to be passed to the function that establishes a connection with the db
-var DB_ARGS = [];
-
-// Database connection
-var db = Db.getConnection.apply(Db, DB_ARGS);
+var DB_ARGS = {};
 
 // Make sure this setting is turned on and reflect the root url for your WebDAV server.
 // This can be for example the root / or a complete path to your server script
 var baseUri = "/";
 
 // set it up for demo use:
-DB_INIT.init(db, function(err) {
+
+new Db(DB_ARGS, function(err, db) {
     if (err)
         throw(err);
-    
+       
+    console.log("mongodb initted!")
+    Db = db;
+
     // Backends
     var authBackend = jsDAV_Auth_Backend.new(db);
     var principalBackend = jsDAVACL_PrincipalBackend.new(db);
@@ -70,3 +70,4 @@ DB_INIT.init(db, function(err) {
         plugins: [jsDAV_Auth_Plugin, jsDAV_Browser_Plugin, jsCardDAV_Plugin, jsDAVACL_Plugin]
     }, 8000);
 });
+
