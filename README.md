@@ -1,11 +1,9 @@
-jsDAV
-=======
+# jsDAV
 
 jsDAV allows you to easily add WebDAV support to a NodeJS application.
 jsDAV is meant to cover the entire standard, and attempts to allow integration using an easy to understand API.
 
-SabreDAV
---------
+## SabreDAV
 jsDAV started as a port of [SabreDAV] to NodeJS Javascript, written by Evert Pot
 and maintained by Evert and contributors.
 [SabreDAV] is regarded as one of the highest quality WebDAV implementations around
@@ -13,8 +11,7 @@ and is written entirely in PHP and is the most feature complete implementation
 that I've seen to date. I am watching the [SabreDAV] repository closely for changes,
 improvements and bugfixes, to see if they can be ported to jsDAV.
 
-Features
---------
+## Features
 
  * Fully WebDAV compliant
  * Supports Windows XP, Windows Vista, Mac OS/X, DavFSv2, Cadaver, Netdrive, Open Office, and probably more
@@ -22,14 +19,12 @@ Features
  * Custom property support
  * Locking support
 
-Features in development
------------------------
+## Features in development
 
  * Pass all Litmus tests
  * CalDAV (to be tested with Evolution, iCal, iPhone and Lightning).
 
-Supported RFC's
----------------
+## Supported RFC's
 
  * [RFC2617]: Basic/Digest auth
  * [RFC2518]: First WebDAV spec
@@ -39,8 +34,7 @@ Supported RFC's
  * [RFC3744]: ACL
  * CardDAV (to be tested with the iOS addressbook and Evolution)
 
-RFC's in development
---------------------
+## RFC's in development
 
  * [RFC4791]: CalDAV
  * [RFC4918]: WebDAV revision
