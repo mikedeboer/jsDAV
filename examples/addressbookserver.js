@@ -15,11 +15,15 @@ This server features CardDAV support
 
 */
 
+// Database driver to use. 'redis' is the default, but feel free to use anything 
+// else supported by jsDAV
+var DB_DRIVER = "redis";
+
 var jsDAV = require("./../lib/jsdav");
 jsDAV.debugMode = true;
-var jsDAV_Auth_Backend_Redis = require("./../lib/DAV/plugins/auth/redis");
-var jsDAVACL_PrincipalBackend_Redis = require("./../lib/DAVACL/backends/redis");
-var jsCardDAV_Backend_Redis = require("./../lib/CardDAV/backends/redis");
+var jsDAV_Auth_Backend = require("./../lib/DAV/plugins/auth/" + DB_DRIVER);
+var jsDAVACL_PrincipalBackend = require("./../lib/DAVACL/backends/" + DB_DRIVER);
+var jsCardDAV_Backend = require("./../lib/CardDAV/backends/" + DB_DRIVER);
 // node classes:
 var jsDAVACL_PrincipalCollection = require("./../lib/DAVACL/principalCollection");
 var jsCardDAV_AddressBookRoot = require("./../lib/CardDAV/addressBookRoot");
@@ -31,9 +35,6 @@ var jsDAVACL_Plugin = require("./../lib/DAVACL/plugin");
 
 var Db = require("./../lib/shared/db");
 
-// Database driver to use. 'redis' is the default, but feel free to use anything 
-// else supported by jsDAV
-var DB_DRIVER = "redis";
 var DB_INIT = require("./data/addressbook/" + DB_DRIVER);
 // Arguments to be passed to the function that establishes a connection with the db
 var DB_ARGS = [];
@@ -55,9 +56,9 @@ DB_INIT.init(db, function(err) {
         throw(err);
     
     // Backends
-    var authBackend = jsDAV_Auth_Backend_Redis.new(db);
-    var principalBackend = jsDAVACL_PrincipalBackend_Redis.new(db);
-    var carddavBackend = jsCardDAV_Backend_Redis.new(db);
+    var authBackend = jsDAV_Auth_Backend.new(db);
+    var principalBackend = jsDAVACL_PrincipalBackend.new(db);
+    var carddavBackend = jsCardDAV_Backend.new(db);
     
     // Setting up the directory tree
     var nodes = [
