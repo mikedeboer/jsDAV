@@ -38,12 +38,44 @@ var Db = require("./../lib/shared/backends/" + DB_DRIVER);
 // Arguments to be passed to the function that establishes a connection with the db
 var DB_ARGS = {};
 
+// Database connection
+Db.getConnection(DB_ARGS, function(err, conn) {
+	if(err) throw err;
+	var db = conn;
+    var authBackend = jsDAV_Auth_Backend.new(db);
+    var principalBackend = jsDAVACL_PrincipalBackend.new(db);
+    var carddavBackend = jsCardDAV_Backend.new(db);
+
+    var nodes = [
+        jsDAVACL_PrincipalCollection.new(principalBackend),
+        jsCardDAV_AddressBookRoot.new(principalBackend, carddavBackend)
+    ];
+
+
+    // Setting up the directory tree
+
+
+    jsDAV.createServer({
+        node: nodes,
+        baseUri: baseUri,
+        authBackend: authBackend,
+        realm: "jsDAV",
+        plugins: [jsDAV_Auth_Plugin, jsDAV_Browser_Plugin, jsCardDAV_Plugin, jsDAVACL_Plugin]
+    }, 8000);
+    	
+/*
+
+
+*/
+});
+
 // Make sure this setting is turned on and reflect the root url for your WebDAV server.
 // This can be for example the root / or a complete path to your server script
 var baseUri = "/";
 
 // set it up for demo use:
 
+/*
 new Db(DB_ARGS, function(err, db) {
     if (err)
         throw(err);
@@ -71,3 +103,4 @@ new Db(DB_ARGS, function(err, db) {
     }, 8000);
 });
 
+*/
