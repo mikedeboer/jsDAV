@@ -43,9 +43,11 @@ var baseUri = "/";
 
 // Arguments to be passed to the function that establishes a connection with the db
 var DB_ARGS = {
-    host: "localhost",
-    db: "jsdav",
-    port: 27017
+    host: "localhost", //optional, default = "localhost"
+    db: "jsdav", //optional, default = "jsdav"
+    port: 27017, //optional, default = 27017
+    //username: "", //optional, if both username and password are provided, authentication will be performed before returning connection
+    //password: "" //see above
 };
 
 // Database connection
@@ -55,8 +57,9 @@ Db.getConnection(DB_ARGS, function (err, conn) {
     
     var db = conn;
 
-    DB_INIT.init(db, false, function (err) {
-        if (err) throw err;
+    DB_INIT.init(db, true, function (err) {
+        if (err)
+            throw err;
 
         var authBackend = jsDAV_Auth_Backend.new(db);
         var principalBackend = jsDAVACL_PrincipalBackend.new(db);
