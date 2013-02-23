@@ -7,6 +7,36 @@
  */
 "use strict";
 
-exports.init = function(redis, callback) {
-	callback();
+exports.init = function(mongo, skipInit, callback) {
+
+	if(skipInit) {
+		console.log("skipping db init");
+		return callback(null, true);
+	}
+	
+	//dummy data
+	
+	var collections = {
+		addressbooks: [{ "uid" : 1, "principaluri" : "principals/admin", "displayname" : "default addressbook", "uri" : "admin", "description" : "", "ctag" : 0 }],
+		principals: [{ "uri" : "principals/admin", "email" : "admin@example.org", "displayname" : "Administrator", "vcardurl" : "" }],
+		users: [{ "username" : "admin", "password" : "6838d8a7454372f68a6abffbdb58911c" }]
+	}
+	
+	var numCollectionsSaved = 0;
+	var collectionNames = Object.keys(collections);
+	
+	collectionNames.forEach(function(collectionName) {		
+		mongo.collection(collectionName).insert(collections[collectionName], function(err, docs) {
+			if(err) {
+				return callback(err);
+			}
+			else {
+				numCollectionsSaved++;
+				console.log(numCollectionsSaved + "gesaved van " + collectionNames.length);
+				if(numCollectionsSaved === collectionNames.length)
+					callback(null, true);
+			}
+		})		
+	})
+	
 };
