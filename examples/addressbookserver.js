@@ -55,7 +55,7 @@ Db.getConnection(DB_ARGS, function (err, conn) {
     
     var db = conn;
 
-    DB_INIT.init(db, true, function (err) {
+    DB_INIT.init(db, false, function (err) {
         if (err) throw err;
 
         var authBackend = jsDAV_Auth_Backend.new(db);

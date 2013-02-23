@@ -19,7 +19,6 @@ exports.init = function (mongo, skipInit, callback) {
 
     var collections = {
         addressbooks: [{
-            "uid": 1,
             "principaluri": "principals/admin",
             "displayname": "default addressbook",
             "uri": "admin",
