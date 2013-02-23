@@ -37,16 +37,54 @@ exports.init = function (mongo, skipInit, callback) {
         }]
     }
 
-    var numCollectionsSaved = 0;
+    var numOperations = 7
+    var numOperationsSaved = 0;
     var collectionNames = Object.keys(collections);
+    
+    //create unique indexes
+
+    mongo.collection("users").ensureIndex({username: 1}, {unique: true}, function(err) {
+        if(err)
+            return callback(err);
+        else {
+            numOperationsSaved++;
+            if (numOperationsSaved === numOperations) callback(null, true);
+        }
+    })
+    mongo.collection("addressbooks").ensureIndex({principaluri: 1}, {unique: true}, function(err) {
+        if(err)
+            return callback(err);
+        else {
+            numOperationsSaved++;
+            if (numOperationsSaved === numOperations) callback(null, true);
+        }        
+    })
+    mongo.collection("addressbooks").ensureIndex({uri: 1}, {unique: true}, function(err) {
+        if(err)
+            return callback(err);
+        else {
+            numOperationsSaved++;
+            if (numOperationsSaved === numOperations) callback(null, true);
+        }       
+    })
+    mongo.collection("principals").ensureIndex({uri: 1}, {unique: true}, function(err) {
+        if(err)
+            return callback(err);
+        else {
+            numOperationsSaved++;
+            if (numOperationsSaved === numOperations) callback(null, true);
+        }        
+    })
+    
+    //insert dummy data
 
     collectionNames.forEach(function (collectionName) {
         mongo.collection(collectionName).insert(collections[collectionName], function (err, docs) {
             if (err) {
                 return callback(err);
             } else {
-                numCollectionsSaved++;
-                if (numCollectionsSaved === collectionNames.length) callback(null, true);
+                numOperationsSaved++;
+                if (numOperationsSaved === numOperations) callback(null, true);
             }
         })
     })
