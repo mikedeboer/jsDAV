@@ -25,7 +25,7 @@
     "optionalDependencies": {
         "dbox": "~0.5.6",
         "redis": "~0.8.2",
-        "mongodb": "*"
+        "mongodb": "~1.2.12"
     },
     "licenses": [{
         "type": "The MIT License",

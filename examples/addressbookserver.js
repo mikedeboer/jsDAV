@@ -3,6 +3,7 @@
  * @subpackage DAV
  * @copyright Copyright(c) 2011 Ajax.org B.V. <info AT ajax.org>
  * @author Mike de Boer <info AT mikedeboer DOT nl>
+ * @author Wouter Vroege <wouter AT woutervroege DOT nl>
  * @license http://github.com/mikedeboer/jsDAV/blob/master/LICENSE MIT License
  */
 "use strict";
@@ -42,37 +43,39 @@ var baseUri = "/";
 
 // Arguments to be passed to the function that establishes a connection with the db
 var DB_ARGS = {
-	host: "localhost",
-	db: "jsdav"
+    host: "localhost",
+    db: "jsdav",
+    port: 27017
 };
 
 // Database connection
-Db.getConnection(DB_ARGS, function(err, conn) {
-	if(err) throw err;	
-	var db = conn;
+Db.getConnection(DB_ARGS, function (err, conn) {
+    if (err)
+    	throw err;
+    
+    var db = conn;
 
-	DB_INIT.init(db, true, function(err) {
-		if(err) throw err;
+    DB_INIT.init(db, true, function (err) {
+        if (err) throw err;
 
-	    var authBackend = jsDAV_Auth_Backend.new(db);
-	    var principalBackend = jsDAVACL_PrincipalBackend.new(db);
-	    var carddavBackend = jsCardDAV_Backend.new(db);
-	
-	    var nodes = [
-	        jsDAVACL_PrincipalCollection.new(principalBackend),
-	        jsCardDAV_AddressBookRoot.new(principalBackend, carddavBackend)
-	    ];
-	
-	
-	    // Setting up the directory tree
-	
-	    jsDAV.createServer({
-	        node: nodes,
-	        baseUri: baseUri,
-	        authBackend: authBackend,
-	        realm: "jsDAV",
-	        plugins: [jsDAV_Auth_Plugin, jsDAV_Browser_Plugin, jsCardDAV_Plugin, jsDAVACL_Plugin]
-	    }, 8000);
-		
-	})
+        var authBackend = jsDAV_Auth_Backend.new(db);
+        var principalBackend = jsDAVACL_PrincipalBackend.new(db);
+        var carddavBackend = jsCardDAV_Backend.new(db);
+
+        var nodes = [
+        jsDAVACL_PrincipalCollection.new(principalBackend),
+        jsCardDAV_AddressBookRoot.new(principalBackend, carddavBackend)];
+
+
+        // Setting up the directory tree
+
+        jsDAV.createServer({
+            node: nodes,
+            baseUri: baseUri,
+            authBackend: authBackend,
+            realm: "jsDAV",
+            plugins: [jsDAV_Auth_Plugin, jsDAV_Browser_Plugin, jsCardDAV_Plugin, jsDAVACL_Plugin]
+        }, 8000);
+
+    })
 });
