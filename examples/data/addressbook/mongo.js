@@ -32,7 +32,6 @@ exports.init = function(mongo, skipInit, callback) {
 			}
 			else {
 				numCollectionsSaved++;
-				console.log(numCollectionsSaved + "gesaved van " + collectionNames.length);
 				if(numCollectionsSaved === collectionNames.length)
 					callback(null, true);
 			}
