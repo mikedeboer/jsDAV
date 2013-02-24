@@ -18,7 +18,7 @@ This server features CardDAV support
 
 // Database driver to use. 'redis' is the default, but feel free to use anything 
 // else supported by jsDAV
-var DB_DRIVER = "redis";
+var DB_DRIVER = "mongo";
 
 var jsDAV = require("./../lib/jsdav");
 jsDAV.debugMode = true;
@@ -57,7 +57,7 @@ Db.getConnection(DB_ARGS, function(err, db) {
     if (err)
         throw err;
 
-    DB_INIT.init(db, true, function(err) {
+    DB_INIT.init(db, false, function(err) {
         if (err)
             throw err;
 
