@@ -7,7 +7,10 @@
  */
 "use strict";
 
-exports.init = function(redis, callback) {
+exports.init = function(redis, skipInit, callback) {
+    if (skipInit)
+        return callback();
+
     redis.multi([
         ["FLUSHDB"],
         // create user admin. NOTE: if you change the realm to something other than 'jsDAV', 
