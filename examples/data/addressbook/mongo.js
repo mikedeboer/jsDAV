@@ -8,85 +8,73 @@
  */
 "use strict";
 
-exports.init = function (mongo, skipInit, callback) {
+var Async = require("asyncjs");
 
-    if (skipInit) {
-        console.log("skipping db init");
-        return callback(null, true);
-    }
+exports.init = function(mongo, skipInit, callback) {
+    if (skipInit)
+        return callback(null);
 
-    //dummy data
-
-    var collections = {
-        addressbooks: [{
-            "principaluri": "principals/admin",
-            "displayname": "default addressbook",
-            "uri": "admin",
-            "description": "",
-            "ctag": 0
-        }],
-        principals: [{
-            "uri": "principals/admin",
-            "email": "admin@example.org",
-            "displayname": "Administrator",
-            "vcardurl": ""
-        }],
-        users: [{
-            "username": "admin",
-            "password": "6838d8a7454372f68a6abffbdb58911c"
-        }]
-    }
-
-    var numOperations = 7
-    var numOperationsSaved = 0;
-    var collectionNames = Object.keys(collections);
-    
-    //create unique indexes
-
-    mongo.collection("users").ensureIndex({username: 1}, {unique: true}, function(err) {
-        if(err)
-            return callback(err);
-        else {
-            numOperationsSaved++;
-            if (numOperationsSaved === numOperations) callback(null, true);
+    var operations = [
+        //create unique indexes
+        {
+            type: "index",
+            collection: "users",
+            data: {username: 1}
+        },
+        {
+            type: "index",
+            collection: "addressbooks",
+            data: {principaluri: 1}
+        },
+        {
+            type: "index",
+            collection: "addressbooks",
+            data: {uri: 1}
+        },
+        {
+            type: "index",
+            collection: "principals",
+            data: {uri: 1}
+        },
+        //dummy data
+        {
+            type: "data",
+            collection: "addressbooks",
+            data: [{
+                "principaluri": "principals/admin",
+                "displayname": "default addressbook",
+                "uri": "admin",
+                "description": "",
+                "ctag": 0
+            }]
+        },
+        {
+            type: "data",
+            collection: "principals",
+            data: [{
+                "uri": "principals/admin",
+                "email": "admin@example.org",
+                "displayname": "Administrator",
+                "vcardurl": ""
+            }]
+        },
+        {
+            type: "data",
+            collection: "users",
+            data: [{
+                "username": "admin",
+                "password": "6838d8a7454372f68a6abffbdb58911c"
+            }]
         }
-    })
-    mongo.collection("addressbooks").ensureIndex({principaluri: 1}, {unique: true}, function(err) {
-        if(err)
-            return callback(err);
-        else {
-            numOperationsSaved++;
-            if (numOperationsSaved === numOperations) callback(null, true);
-        }        
-    })
-    mongo.collection("addressbooks").ensureIndex({uri: 1}, {unique: true}, function(err) {
-        if(err)
-            return callback(err);
-        else {
-            numOperationsSaved++;
-            if (numOperationsSaved === numOperations) callback(null, true);
-        }       
-    })
-    mongo.collection("principals").ensureIndex({uri: 1}, {unique: true}, function(err) {
-        if(err)
-            return callback(err);
-        else {
-            numOperationsSaved++;
-            if (numOperationsSaved === numOperations) callback(null, true);
-        }        
-    })
-    
-    //insert dummy data
+    ];
 
-    collectionNames.forEach(function (collectionName) {
-        mongo.collection(collectionName).insert(collections[collectionName], function (err, docs) {
-            if (err) {
-                return callback(err);
-            } else {
-                numOperationsSaved++;
-                if (numOperationsSaved === numOperations) callback(null, true);
-            }
+    Async.list(operations)
+        .each(function(op, next) {
+            var coll = mongo.collection(op.collection);
+            if (op.type == "index")
+                coll.ensureIndex(op.data, {unique: true}, next);
+            else
+                coll.insert(op.data, next);
         })
-    })
-
+        .end(callback);
 };
