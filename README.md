@@ -51,7 +51,8 @@ improvements and bugfixes, to see if they can be ported to jsDAV.
 [RFC5397]: http://www.ietf.org/rfc/rfc5689.txt
 [RFC5689]: http://www.ietf.org/rfc/rfc5689.txt
 
-See the [wiki](https://github.com/mikedeboer/jsDAV/wiki) for more information!
+See the [wiki](https://github.com/mikedeboer/jsDAV/wiki) for more information or
+ask a question in the [mailing list](https://groups.google.com/d/forum/jsdav)!
 
 
 Amsterdam, 2010. Mike de Boer.
