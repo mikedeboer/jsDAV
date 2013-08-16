@@ -13,6 +13,7 @@ var Async = require("asyncjs");
 exports.init = function(mongo, skipInit, callback) {
     if (skipInit)
         return callback(null);
+
     var operations = [
         // create unique indexes
         {
