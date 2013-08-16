@@ -1,5 +1,4 @@
 /*
-/*
  * @package jsDAV
  * @subpackage DAV
  * @copyright Copyright(c) 2011 Ajax.org B.V. <info AT ajax.org>
@@ -42,9 +41,10 @@ var DB_INIT = require("./data/addressbook/" + DB_DRIVER);
 // This can be for example the root / or a complete path to your server script
 var baseUri = "/";
 
-//// Arguments to be passed to the function that establishes a connection with the db
+// Arguments to be passed to the function that establishes a connection with the db
 var DB_ARGS = {};
-//// DB arguments for the mongo driver:
+
+// DB arguments for the mongo driver:
 /*var DB_ARGS = {
     host: "localhost",
     db: "jsdav",
