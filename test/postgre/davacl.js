@@ -1,3 +1,12 @@
+/*
+ * @package jsDAV
+ * @subpackage DAVACL
+ * @copyright Copyright(c) 2013 Mike de Boer. <info AT mikedeboer DOT nl>
+ * @author Daniel Laxar
+ * @license http://github.com/mikedeboer/jsDAV/blob/master/LICENSE MIT License
+ */
+"use strict";
+
 var postgre = require('../../lib/shared/backends/postgre.js');
 var p = require('../../lib/DAVACL/backends/postgre.js');
 var db = require('./db.js');
