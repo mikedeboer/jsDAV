@@ -17,7 +17,9 @@
         "asyncjs": "~0.0.8",
         "formidable": "~1.0.11",
         "xmldom": "~0.1.13",
-        "xpath": "~0.0.5"
+        "xpath": "~0.0.5",
+        "moment": "2.4.0",
+        "time": "0.10.0"
     },
     "optionalDependencies": {
         "jsftp": "~0.5.4",
@@ -26,6 +28,10 @@
         "redis": "~0.8.2",
         "mongodb": "~1.2.12",
         "gnu-tools": "0.0.x"
+    },
+    "devDependencies": {
+        "mocha": "",
+        "assert": ""
     },
     "licenses": [{
         "type": "The MIT License",
