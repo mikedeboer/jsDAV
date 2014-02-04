@@ -16,7 +16,7 @@ This server features CardDAV support
 
 */
 
-// Database driver to use. 'redis' is the default, but feel free to use anything 
+// Database driver to use. 'redis' is the default, but feel free to use anything
 // else supported by jsDAV
 var DB_DRIVER = "redis";
 
@@ -43,14 +43,16 @@ var baseUri = "/";
 
 // Arguments to be passed to the function that establishes a connection with the db
 var DB_ARGS = {};
-/* DB arguments for the mongo driver:
-var DB_ARGS = {
-    host: "localhost", //optional, default = "localhost"
-    db: "jsdav", //optional, default = "jsdav"
-    port: 27017, //optional, default = 27017
+
+// DB arguments for the mongo driver:
+/*var DB_ARGS = {
+    host: "localhost",
+    db: "jsdav",
+    port: 27017,
     //username: "", //optional, if both username and password are provided, authentication will be performed before returning connection
     //password: "" //see above
-};*/
+};
+*/
 
 // Database connection
 Db.getConnection(DB_ARGS, function(err, db) {
