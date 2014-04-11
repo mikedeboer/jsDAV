@@ -7,12 +7,15 @@
  */
 "use strict";
 
-var jsDAV = require("./../lib/jsdav"),
-    jsDAV_Locks_Backend_FS = require("./../lib/DAV/plugins/locks/fs");
+var jsDAV = require("./../lib/jsdav");
+var jsDAV_FSExt_Tree = require("./../lib/DAV/backends/fsext/tree");
+var jsDAV_Locks_Backend_FS = require("./../lib/DAV/plugins/locks/fs");
 
-jsDAV.debugMode = true;
+var Path = require("path");
+
+// jsDAV.debugMode = true;
 
 jsDAV.createServer({
-    node: __dirname + "/assets",
+    tree: jsDAV_FSExt_Tree.new(Path.join(__dirname, "assets")),
     locksBackend: jsDAV_Locks_Backend_FS.new(__dirname + "/assets")
 }, 8000);
