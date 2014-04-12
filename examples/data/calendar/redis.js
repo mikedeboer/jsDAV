@@ -1,6 +1,6 @@
 /*
  * @package jsDAV
- * @subpackage CardDAV
+ * @subpackage CalDAV
  * @copyright Copyright(c) 2013 Mike de Boer. <info AT mikedeboer DOT nl>
  * @author Mike de Boer <info AT mikedeboer DOT nl>
  * @license http://github.com/mikedeboer/jsDAV/blob/master/LICENSE MIT License
@@ -21,8 +21,8 @@ exports.init = function(redis, skipInit, callback) {
         ["HMSET", "principals/principals/admin/calendar-proxy-read", "email", "", "displayname", ""],
         ["HMSET", "principals/principals/admin/calendar-proxy-write", "email", "", "displayname", ""],
         // create the first addressbook
-        ["SET", "addressbooks/ID", "1"],
-        ["HMSET", "addressbooks/1", "principaluri", "principals/admin", "displayname", "default addressbook", "uri", "default", "description", "", "ctag", "1"],
-        ["HMSET", "addressbooks/principalUri", "principals/admin", "[1]"]
+        ["SET", "calendars/ID", "1"],
+        ["HMSET", "calendars/1", "principaluri", "principals/admin", "displayname", "default addressbook", "uri", "default", "description", "", "ctag", "1"],
+        ["HMSET", "calendars/principalUri", "principals/admin", "[1]"]
     ]).exec(callback);
 };
