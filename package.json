@@ -1,40 +1,49 @@
 {
     "name": "jsDAV",
-    "description": "jsDAV allows you to easily add WebDAV support to a NodeJS application. jsDAV is meant to cover the entire standard, and attempts to allow integration using an easy to understand API.",
     "version": "0.3.2",
-    "homepage" : "http://github.com/mikedeboer/jsDAV",
-    "engines": {"node": ">= 0.4.0"},
     "author": "Mike de Boer <info@mikedeboer.nl>",
-    "scripts": {
-        "test": "node test/test_server.js"
-    },
+    "description": "jsDAV allows you to easily add WebDAV support to a NodeJS application. jsDAV is meant to cover the entire standard, and attempts to allow integration using an easy to understand API.",
+    "homepage": "http://github.com/mikedeboer/jsDAV",
+    "license": "MIT",
     "main": "lib/jsdav",
+
+    "contributors": [
+      "Gareth Aye [:gaye] <gareth@alumni.middlebury.edu>",
+      "Mike de Boer <info@mikedeboer.nl>"
+    ],
+
+    "engines": {"node": ">=0.4.0 <0.11"},
+
+    "scripts": {
+        "test": "make"
+    },
+
     "repository" : {
         "type" : "git",
         "url" : "http://github.com/mikedeboer/jsDAV.git"
     },
+
     "dependencies": {
         "asyncjs": "~0.0.8",
         "formidable": "~1.0.11",
-        "xmldom": "~0.1.13",
-        "xpath": "~0.0.5",
         "moment": "2.4.0",
-        "time": "0.10.0"
+        "time": "0.10.0",
+        "xmldom": "~0.1.13",
+        "xpath": "~0.0.5"
     },
+
     "optionalDependencies": {
+        "dbox": "~0.5.6",
+        "gnu-tools": "0.0.x",
         "jsftp": "~0.5.4",
         "node-sftp": "0.1.1",
-        "dbox": "~0.5.6",
         "redis": "~0.8.2",
-        "mongodb": "~1.2.12",
-        "gnu-tools": "0.0.x"
+        "mongodb": "~1.2.12"
     },
+
     "devDependencies": {
-        "mocha": "",
-        "assert": ""
-    },
-    "licenses": [{
-        "type": "The MIT License",
-        "url": "http://www.opensource.org/licenses/mit-license.php"
-    }]
+        "assert": "1.1.1",
+        "jshint": "2.5.1",
+        "mocha": "1.20.0"
+    }
 }
