@@ -72,7 +72,7 @@ exports.init = function(mongo, skipInit, callback) {
         Async.list(operations)
             .each(function(op, next) {
                 var coll = mongo.collection(op.collection);
-                if (op.type == "index")
+                if (op.type === "index")
                     coll.ensureIndex(op.data, {unique: true}, next);
                 else
                     coll.insert(op.data, next);

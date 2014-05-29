@@ -49,8 +49,8 @@ var DB_ARGS = {};
     host: "localhost",
     db: "jsdav",
     port: 27017,
-    //username: "", //optional, if both username and password are provided, authentication will be performed before returning connection
-    //password: "" //see above
+    //username: "", // optional, will try auth if both username and password are provided
+    //password: ""  // see above
 };
 */
 

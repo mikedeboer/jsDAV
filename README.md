@@ -1,5 +1,7 @@
 # jsDAV
 
+[![Build Status](https://travis-ci.org/mikedeboer/jsdav.png?branch=master)](https://travis-ci.org/mikedeboer/jsdav)
+
 jsDAV allows you to easily add WebDAV support to a NodeJS application.
 jsDAV is meant to cover the entire standard, and attempts to allow integration using an easy to understand API.
 
@@ -53,6 +55,10 @@ improvements and bugfixes, to see if they can be ported to jsDAV.
 
 See the [wiki](https://github.com/mikedeboer/jsDAV/wiki) for more information or
 ask a question in the [mailing list](https://groups.google.com/d/forum/jsdav)!
+
+## Testing
+
+In order to run the test suite locally, you can run `npm test`. In addition to the mocha suite, there are also "smoke tests" which can be run manually in `test/smoke`.
 
 
 Amsterdam, 2010. Mike de Boer.
