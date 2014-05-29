@@ -2,7 +2,7 @@
   "bitwise"       : true,     // true: Prohibit bitwise operators (&, |, ^, etc.)
   "camelcase"     : false,    // true: Identifiers must be in camelCase
   "curly"         : false,    // true: Require {} for every new block or scope
-  "eqeqeq"        : true,     // true: Require triple equals (===) for comparison
+  "eqeqeq"        : false,    // true: Require triple equals (===) for comparison
   "forin"         : false,    // true: Require filtering for..in loops with obj.hasOwnProperty()
   "immed"         : false,    // true: Require immediate invocations to be wrapped in parens e.g. `(function () { } ());`
   "indent"        : 4,        // {int} Number of spaces to use for indentation
