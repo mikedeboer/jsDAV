@@ -15,7 +15,7 @@ exports.init = function(mongo, skipInit, callback) {
         return callback(null);
 
     var operations = [
-        //create unique indexes
+        // create unique indexes
         {
             type: "index",
             collection: "users",
@@ -67,14 +67,15 @@ exports.init = function(mongo, skipInit, callback) {
             }]
         }
     ];
-
-    Async.list(operations)
-        .each(function(op, next) {
-            var coll = mongo.collection(op.collection);
-            if (op.type == "index")
-                coll.ensureIndex(op.data, {unique: true}, next);
-            else
-                coll.insert(op.data, next);
-        })
-        .end(callback);
+    // drop database, create new...
+    mongo.dropDatabase(function() {
+        Async.list(operations)
+            .each(function(op, next) {
+                var coll = mongo.collection(op.collection);
+                if (op.type == "index")
+                    coll.ensureIndex(op.data, {unique: true}, next);
+                else
+                    coll.insert(op.data, next);
+            }).end(callback);
+    });
 };
