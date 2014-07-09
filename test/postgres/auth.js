@@ -14,50 +14,50 @@ var expect = require("chai").expect;
 var client;
 
 describe("auth", function () {
-	before(function (done) {
-		db.init(function (err) {
-			if (err) {
-				return done(err);
-      }
+    before(function (done) {
+        db.init(function (err) {
+            if (err) {
+                return done(err);
+            }
 
-			jsDBDAV_Backend_Postgres.getConnection(db.c, function (err, cl) {
-				if (err) {
-					done(err);
-				}
-				else {
-					client = cl;
-					authInstance = jsAuthDAV_Backend_Postgres.new(client);
+            jsDBDAV_Backend_Postgres.getConnection(db.c, function (err, cl) {
+                if (err) {
+                    done(err);
+                }
+                else {
+                    client = cl;
+                    authInstance = jsAuthDAV_Backend_Postgres.new(client);
 
-					done();
-				}
-			});
-		});
-	});
+                    done();
+                }
+            });
+        });
+    });
 
-	it("should get the correct hash for an existing user", function (done) {
-		authInstance.getDigestHash("", "daniel", function (err, hash) {
-			if (err) {
-				return done(err);
-      }
+    it("should get the correct hash for an existing user", function (done) {
+        authInstance.getDigestHash("", "daniel", function (err, hash) {
+            if (err) {
+                return done(err);
+            }
 
-			expect(hash).to.be.eq("abc");
-			done();
-		});
-	});
+            expect(hash).to.be.eq("abc");
+            done();
+        });
+    });
 
-	it("should return undefined for a non existing user", function (done) {
-		authInstance.getDigestHash("", "armin", function (err, hash) {
-			if (err){
-				return done(err);
-      }
+    it("should return undefined for a non existing user", function (done) {
+        authInstance.getDigestHash("", "armin", function (err, hash) {
+            if (err){
+                return done(err);
+            }
 
-			expect(hash).to.be.undefined;
-			done();
-		});
-	});
+            expect(hash).to.be.undefined;
+            done();
+        });
+    });
 
-	after(function (done) {
-		client.end();
-		db.cleanup(done);
-	});
+    after(function (done) {
+        client.end();
+        db.cleanup(done);
+    });
 });
