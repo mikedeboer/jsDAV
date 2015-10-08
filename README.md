@@ -18,10 +18,10 @@ improvements and bugfixes, to see if they can be ported to jsDAV.
  * Supporting class 1, 2 and 3 Webdav servers
  * Custom property support
  * Locking support
+ * Pass all Litmus tests
 
 ## Features in development
 
- * Pass all Litmus tests
  * CalDAV (to be tested with Evolution, iCal, iPhone and Lightning).
 
 ## Supported RFC's
