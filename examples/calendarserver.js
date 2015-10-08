@@ -1,18 +1,17 @@
 /*
  * @package jsDAV
- * @subpackage CardDAV
+ * @subpackage CalDAV
  * @copyright Copyright(c) 2013 Mike de Boer. <info AT mikedeboer DOT nl>
  * @author Mike de Boer <info AT mikedeboer DOT nl>
- * @author Wouter Vroege <wouter AT woutervroege DOT nl>
  * @license http://github.com/mikedeboer/jsDAV/blob/master/LICENSE MIT License
  */
 "use strict";
 
 /*
 
-Addressbook/CardDAV server example
+Calendar/CalDAV server example
 
-This server features CardDAV support
+This server features CalDAV support
 
 */
 
@@ -24,14 +23,14 @@ var jsDAV = require("./../lib/jsdav");
 jsDAV.debugMode = true;
 var jsDAV_Auth_Backend = require("./../lib/DAV/plugins/auth/" + DB_DRIVER);
 var jsDAVACL_PrincipalBackend = require("./../lib/DAVACL/backends/" + DB_DRIVER);
-var jsCardDAV_Backend = require("./../lib/CardDAV/backends/" + DB_DRIVER);
+var jsCalDAV_Backend = require("./../lib/CalDAV/backends/" + DB_DRIVER);
 // node classes:
 var jsDAVACL_PrincipalCollection = require("./../lib/DAVACL/principalCollection");
-var jsCardDAV_AddressBookRoot = require("./../lib/CardDAV/addressBookRoot");
+var jsCalDAV_CalendarRoot = require("./../lib/CalDAV/calendarRoot");
 // plugins:
 var jsDAV_Auth_Plugin = require("./../lib/DAV/plugins/auth");
 var jsDAV_Browser_Plugin = require("./../lib/DAV/plugins/browser");
-var jsCardDAV_Plugin = require("./../lib/CardDAV/plugin");
+var jsCalDAV_Plugin = require("./../lib/CalDAV/plugin");
 var jsDAVACL_Plugin = require("./../lib/DAVACL/plugin");
 
 var Db = require("./../lib/shared/backends/" + DB_DRIVER);
@@ -65,12 +64,12 @@ Db.getConnection(DB_ARGS, function(err, db) {
 
         var authBackend = jsDAV_Auth_Backend.new(db);
         var principalBackend = jsDAVACL_PrincipalBackend.new(db);
-        var carddavBackend = jsCardDAV_Backend.new(db);
+        var caldavBackend = jsCalDAV_Backend.new(db);
 
         // Setting up the directory tree
         var nodes = [
             jsDAVACL_PrincipalCollection.new(principalBackend),
-            jsCardDAV_AddressBookRoot.new(principalBackend, carddavBackend)
+            jsCalDAV_CalendarRoot.new(principalBackend, caldavBackend)
         ];
 
         jsDAV.createServer({
@@ -78,7 +77,7 @@ Db.getConnection(DB_ARGS, function(err, db) {
             baseUri: baseUri,
             authBackend: authBackend,
             realm: "jsDAV",
-            plugins: [jsDAV_Auth_Plugin, jsDAV_Browser_Plugin, jsCardDAV_Plugin, jsDAVACL_Plugin]
+            plugins: [jsDAV_Auth_Plugin, jsDAV_Browser_Plugin, jsCalDAV_Plugin, jsDAVACL_Plugin]
         }, 8000);
 
     });
