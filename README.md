@@ -40,7 +40,7 @@ improvements and bugfixes, to see if they can be ported to jsDAV.
  * [RFC4918]: WebDAV revision
  * CalDAV ctag, CalDAV-proxy
 
-[SabreDAV]: http://code.google.com/p/sabredav/
+[SabreDAV]: http://sabre.io/
 [RFC2617]: http://www.ietf.org/rfc/rfc2617.txt
 [RFC2518]: http://www.ietf.org/rfc/rfc2518.txt
 [RFC3744]: http://www.ietf.org/rfc/rfc3744.txt
