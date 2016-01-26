@@ -48,7 +48,7 @@ improvements and bugfixes, to see if they can be ported to jsDAV.
 [DavMount]: http://code.google.com/p/sabredav/wiki/DavMount
 [RFC4791]: http://www.ietf.org/rfc/rfc4791.txt
 [RFC4918]: http://www.ietf.org/rfc/rfc4918.txt
-[RFC5397]: http://www.ietf.org/rfc/rfc5689.txt
+[RFC5397]: http://www.ietf.org/rfc/rfc5397.txt
 [RFC5689]: http://www.ietf.org/rfc/rfc5689.txt
 
 See the [wiki](https://github.com/mikedeboer/jsDAV/wiki) for more information or
