@@ -28,7 +28,7 @@ improvements and bugfixes, to see if they can be ported to jsDAV.
 
  * [RFC2617]: Basic/Digest auth
  * [RFC2518]: First WebDAV spec
- * [RFC4709]: [DavMount]
+ * [RFC4709]: DavMount
  * [RFC5397]: current-user-principal
  * [RFC5689]: Extended MKCOL
  * [RFC3744]: ACL
@@ -45,7 +45,6 @@ improvements and bugfixes, to see if they can be ported to jsDAV.
 [RFC2518]: http://www.ietf.org/rfc/rfc2518.txt
 [RFC3744]: http://www.ietf.org/rfc/rfc3744.txt
 [RFC4709]: http://www.ietf.org/rfc/rfc4709.txt
-[DavMount]: http://code.google.com/p/sabredav/wiki/DavMount
 [RFC4791]: http://www.ietf.org/rfc/rfc4791.txt
 [RFC4918]: http://www.ietf.org/rfc/rfc4918.txt
 [RFC5397]: http://www.ietf.org/rfc/rfc5397.txt
