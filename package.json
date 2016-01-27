@@ -16,20 +16,20 @@
         "url" : "http://github.com/mikedeboer/jsDAV.git"
     },
     "dependencies": {
-        "asyncjs": "~0.0.8",
-        "formidable": "~1.0.17",
-        "xmldom": "~0.1.21",
-        "xpath": "~0.0.21",
+        "asyncjs": "0.0.10",
+        "formidable": "1.0.17",
+        "xmldom": "0.1.21",
+        "xpath": "0.0.21",
         "moment": "2.11.1"
     },
     "optionalDependencies": {
-        "jsftp": "~0.5.4",
+        "jsftp": "0.5.4",
         "node-sftp": "0.1.1",
-        "dbox": "~0.5.6",
-        "redis": "~0.8.2",
-        "mongodb": "~2.0.49",
-        "pg": "~1.3.0",
-        "gnu-tools": "0.0.x"
+        "dbox": "0.6.4",
+        "redis": "2.4.2",
+        "mongodb": "2.1.4",
+        "pg": "4.4.3",
+        "gnu-tools": "0.0.9"
     },
     "devDependencies": {
         "chai": "latest",
